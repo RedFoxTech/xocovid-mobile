@@ -101,7 +101,10 @@ const styles = StyleSheet.create({
     letterSpacing: 0.4
   },
   title: {
-    textAlign: 'left'
+    textAlign: 'left',
+    width: screenWidth,
+    fontSize: 20,
+    marginBottom: 32
   },
   register: {
     fontSize: 16,
