@@ -56,7 +56,6 @@ class Classification extends React.Component {
       <View style={{flex: 1}}>
           <ProgressSteps>
               <ProgressStep label="" nextBtnTextStyle={buttonTextStyle} nextBtnText='Confirmar' previousBtnTextStyle={buttonTextStyle}>
-                  <View style={{ alignItems: 'center' }}>
                   <Layout style={styles.container}> 
                     <Text>O que você está sentindo?</Text>
                     <Layout style={styles.containerButtons}> 
@@ -70,26 +69,21 @@ class Classification extends React.Component {
                       <Button style={styles.buttonBottom} appearance='filled'>Confirmar</Button>
                     </Layout>
                   </Layout>
-                  </View>
               </ProgressStep>
-              <ProgressStep label="" nextBtnTextStyle={buttonTextStyle} previousBtnTextStyle={buttonTextStyle}>
+              <ProgressStep label="" nextBtnTextStyle={buttonTextStyle}  nextBtnText='Confirmar' previousBtnText='Voltar' previousBtnTextStyle={buttonTextStyle}>
                   <View style={{ alignItems: 'center' }}>
                       <Text>Teve contato com alguma pessoa com caso suspeito?</Text>
-                      <Toggle
-                        text={`Checked: ${this.state.checked}`}
-                        checked={this.state.checked}
-                        onChange={() => this.setState({ checked: !this.state.checked })}
-                      />
+                      <Text>sim nao</Text>
                   </View>
               </ProgressStep>
-              <ProgressStep label="" nextBtnTextStyle={buttonTextStyle} previousBtnTextStyle={buttonTextStyle}>
+              <ProgressStep label="" nextBtnTextStyle={buttonTextStyle} previousBtnTextStyle={buttonTextStyle}  nextBtnText='Confirmar' previousBtnText='Voltar'>
                   <View style={{ alignItems: 'center' }}>
-                      <Text>This is the content within step 2!</Text>
+                  <Text>Teve contato com alguma pessoa com caso confirmado nos ultimos 15 dias?</Text>
                   </View>
               </ProgressStep>
-              <ProgressStep label="" nextBtnTextStyle={buttonTextStyle} previousBtnTextStyle={buttonTextStyle}>
+              <ProgressStep label="" nextBtnTextStyle={buttonTextStyle} previousBtnTextStyle={buttonTextStyle}  nextBtnText='Confirmar' previousBtnText='Voltar'>
                   <View style={{ alignItems: 'center' }}>
-                      <Text>This is the content within step 2!</Text>
+                      <Text>Esteve em algum outro pais nos ultimos 14 dias?</Text>
                   </View>
               </ProgressStep>
           </ProgressSteps>
