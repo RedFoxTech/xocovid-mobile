@@ -12,6 +12,7 @@ import 'react-native-gesture-handler';
 import Maps from './screens/Maps'
 import Login from './screens/Login'
 import Classification from './screens/Classification'
+import Register from './screens/Register';
 
 import { EvaIconsPack } from '@ui-kitten/eva-icons';
 
@@ -48,6 +49,15 @@ export default function App(props) {
         await Font.loadAsync({
           ...Ionicons.font,
           'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
+          // 'Montserrat-Black': require('./assets/fonts/Montserrat-Black.ttf'),
+          // 'Montserrat-Bold': require('./assets/fonts/Montserrat-Bold.ttf'),
+          // 'Montserrat-ExtraBold': require('./assets/fonts/Montserrat-ExtraBold.ttf'),
+          // 'Montserrat-ExtraLight': require('./assets/fonts/Montserrat-ExtraLight.ttf'),
+          // 'Montserrat-Light': require('./assets/fonts/Montserrat-Light.ttf'),
+          // 'Montserrat-Medium': require('./assets/fonts/Montserrat-Medium.ttf'),
+          // 'Montserrat-Regular': require('./assets/fonts/Montserrat-Regular.ttf'),
+          // 'Montserrat-SemiBold': require('./assets/fonts/Montserrat-SemiBold.ttf'),
+          // 'Montserrat-Thin': require('./assets/fonts/Montserrat-Thin.ttf'),
         });
       } catch (e) {
         // We might want to provide this error information to an error reporting service
@@ -59,7 +69,7 @@ export default function App(props) {
     }
 
     loadResourcesAndDataAsync();
-  }, []);
+    }, []);
 
   if (!isLoadingComplete && !props.skipLoadingScreen) {
     return null;
@@ -71,9 +81,10 @@ export default function App(props) {
         {/* <Login/> */}
           <NavigationContainer initialRouteName="Home">
             <Stack.Navigator>
-            <Stack.Screen name="Home" component={Login} />
-            <Stack.Screen name="Maps" component={Maps} />
-            <Stack.Screen name="Classification" component={Classification} />
+              <Stack.Screen name="Home" component={Login} />
+              <Stack.Screen name="Register" component={Register} />
+              <Stack.Screen name="Maps" component={Maps} />
+              <Stack.Screen name="Classification" component={Classification} />
             </Stack.Navigator>
           </NavigationContainer>
       </ ApplicationProvider>

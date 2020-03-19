@@ -1,7 +1,7 @@
 import { ApplicationProvider, Input, Layout, Text, Button } from '@ui-kitten/components';
 import { mapping, light as lightTheme } from '@eva-design/eva';
 
-import { StyleSheet, View, Dimensions } from 'react-native'
+import { StyleSheet, View, Dimensions, TouchableOpacity } from 'react-native'
 
 import React from 'react'
 
@@ -26,14 +26,17 @@ const Login = ({ navigation }) => (
     />
     <Text style={styles.forgetPassword}> Esqueci minha senha! </Text>
     <Button style={styles.loginBtn} onPress={() => navigation.navigate('Maps')}> ENTRAR </Button>
-    <View style={styles.containerRegister}>
+    <TouchableOpacity
+      style={styles.containerRegister}
+      onPress={() => navigation.navigate('Register')}
+    >
       <Text>
         Não tem conta?
       </Text>
       <Text style={styles.register}>
         CADASTRE-SE
       </Text>
-    </View>
+    </TouchableOpacity>
     <Text style={styles.orEnter}>
       ou entre com
     </Text>
