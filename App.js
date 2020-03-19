@@ -1,14 +1,24 @@
 import * as React from 'react';
-import { Platform, StatusBar, StyleSheet, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { SplashScreen } from 'expo';
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
 import { createStackNavigator } from '@react-navigation/stack';
+import { NavigationContainer } from '@react-navigation/native';
+
+
+import 'react-native-gesture-handler';
+
+import Maps from './screens/Maps'
+import Login from './screens/Login'
+import Classification from './screens/Classification'
+
+import { EvaIconsPack } from '@ui-kitten/eva-icons';
 
 // import BottomTabNavigator from './navigation/BottomTabNavigator';
 import useLinking from './navigation/useLinking';
 
-import { ApplicationProvider, Layout, Text, Button } from '@ui-kitten/components';
+import { ApplicationProvider, Layout, Text, Button, IconRegistry } from '@ui-kitten/components';
 import { mapping, light as lightTheme } from '@eva-design/eva';
 
 const Stack = createStackNavigator();
@@ -55,23 +65,30 @@ export default function App(props) {
     return null;
   } else {
     return (
-    
+      <>
       <ApplicationProvider mapping={mapping} theme={lightTheme}>
-        <Text> teste 22</Text>
-        <HomeScreen/>
-      </ApplicationProvider>
-    
+        <IconRegistry icons={EvaIconsPack} />
+        {/* <Login/> */}
+          <NavigationContainer initialRouteName="Home">
+            <Stack.Navigator>
+            <Stack.Screen name="Home" component={Login} />
+            <Stack.Screen name="Maps" component={Maps} />
+            <Stack.Screen name="Classification" component={Classification} />
+            </Stack.Navigator>
+          </NavigationContainer>
+      </ ApplicationProvider>
+      </>
     )
-    // return (
-    //   <View style={styles.container}>
-    //     {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-    //     <NavigationContainer ref={containerRef} initialState={initialNavigationState}>
-    //       <Stack.Navigator>
-    //         <Stack.Screen name="Codiv-19 tracker BR" component={BottomTabNavigator} />
-    //       </Stack.Navigator>
-    //     </NavigationContainer>
-    //   </View>
-    // );
+    return (
+      <View style={styles.container}>
+        {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
+        <NavigationContainer ref={containerRef} initialState={initialNavigationState}>
+          <Stack.Navigator>
+            <Stack.Screen name="Codiv-19 tracker BR" component={Login} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </View>
+    );
   }
 }
 

@@ -32,7 +32,7 @@ export default class TestScreen extends React.Component {
     }
     let location = await Location.getCurrentPositionAsync({})
     this.setState({ location })
-  };
+  }
 
   render() {
     let text = false;
