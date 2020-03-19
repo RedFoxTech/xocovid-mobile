@@ -27,9 +27,12 @@
     "expo-font": "~8.0.0",
     "expo-location": "~8.0.0",
     "expo-web-browser": "~8.0.0",
+    "expokit": "^36.0.1",
+    "firebase": "^7.12.0",
     "react": "~16.9.0",
     "react-dom": "~16.9.0",
-    "react-native": "https://github.com/expo/react-native/archive/sdk-36.0.0.tar.gz",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-36.0.1.tar.gz",
+    "react-native-firebase": "^5.6.0",
     "react-native-gesture-handler": "~1.5.0",
     "react-native-maps": "0.26.1",
     "react-native-progress-steps": "^1.2.9",
@@ -38,6 +41,7 @@
     "react-native-safe-area-context": "0.6.0",
     "react-native-screens": "2.0.0-alpha.12",
     "react-native-svg": "^12.0.3",
+    "react-native-unimodules": "^0.7.0",
     "react-native-web": "~0.11.7"
   },
   "devDependencies": {
