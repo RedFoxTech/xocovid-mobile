@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>76166229815-hcp8ifbpcfiqap93h704ki8r9rbi6f5r.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.76166229815-hcp8ifbpcfiqap93h704ki8r9rbi6f5r</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBwwFJ20ayEAXi69jhrg8Iy_UHDrMg78Bs</string>
+	<key>GCM_SENDER_ID</key>
+	<string>76166229815</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.redfox.xocovid</string>
+	<key>PROJECT_ID</key>
+	<string>redfox-nearid</string>
+	<key>STORAGE_BUCKET</key>
+	<string>redfox-nearid.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:76166229815:ios:4099d0b7b5a8a2bbb3f4b2</string>
+	<key>DATABASE_URL</key>
+	<string>https://redfox-nearid.firebaseio.com</string>
+</dict>
+</plist>

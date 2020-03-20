@@ -2,6 +2,8 @@ import React from 'react';
 import { View, StyleSheet, Dimensions, Text } from 'react-native';
 import { Button } from '@ui-kitten/components';
 import { Formik } from 'formik';
+import * as Yup from 'yup';
+
 import Input from '../components/Input';
 
 
@@ -35,6 +37,25 @@ const styles = StyleSheet.create({
 })
 
 const Register = ({ navigation }) => {
+  const errorMessages = {
+    required: 'Campo obrigatório.',
+    email: 'Formato inválido.',
+    number: 'Campo precisa ser um número.'
+  };
+
+  const validationSchema = Yup.object().shape({
+    displayName: Yup.string()
+      .required(errorMessages.required),
+    age: Yup.number()
+      .required(errorMessages.required),
+    email: Yup.string()
+      .email(errorMessages.email)
+      .required(errorMessages.required),
+    password: Yup.string()
+      .required(errorMessages.required)
+  });
+  const formatNumberMessage = message => message && typeof message === 'string' && /age must be a `number`/.test(message) && errorMessages.number;
+
   const handleSubmit = values => {
     console.log(values);
 
@@ -47,12 +68,16 @@ const Register = ({ navigation }) => {
       <Formik
           initialValues={{ password: '', email: '' }}
           onSubmit={handleSubmit}
+          validationSchema={validationSchema}
+          isInitialValid
         >
           {props => {
-            const { values: { email, password, displayName, age }, handleSubmit, handleChange } = props
+            const { values: { email, password, displayName, age }, handleSubmit, handleChange, handleBlur, errors, touched } = props
   
             return (
               <>
+              <Text>{JSON.stringify(errors)}</Text>
+              <Text>{JSON.stringify(touched)}</Text>
                 <Input
                   style={styles.input}
                   labelStyle={styles.inputLabel}
@@ -60,6 +85,8 @@ const Register = ({ navigation }) => {
                   placeholder="Digite seu nome completo"
                   onChangeText={handleChange('displayName')}
                   value={displayName}
+                  onBlur={handleBlur('displayName')}
+                  caption={touched.displayName && errors.displayName}
                 />
                 <Input
                   style={styles.input}
@@ -69,6 +96,8 @@ const Register = ({ navigation }) => {
                   placeholder='Digite o seu email'
                   type="email"
                   value={email}
+                  onBlur={handleBlur('email')}
+                  caption={touched.email && errors.email}
                 />
                 <Input
                   style={styles.input}
@@ -77,6 +106,8 @@ const Register = ({ navigation }) => {
                   placeholder="Digite sua idade"
                   onChangeText={handleChange('age')}
                   value={age}
+                  onBlur={handleBlur('age')}
+                  caption={formatNumberMessage(touched.age && errors.age)}
                   type="number"
                 />
                 <Input
@@ -87,6 +118,8 @@ const Register = ({ navigation }) => {
                   onChangeText={handleChange('password')}
                   placeholder='Digite a sua senha'
                   value={password}
+                  onBlur={handleBlur('password')}
+                  caption={touched.password && errors.password}
                 />
                 <Button style={styles.loginBtn} onPress={handleSubmit}> CADASTRAR </Button>
               </>

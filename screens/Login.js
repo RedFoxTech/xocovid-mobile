@@ -1,4 +1,7 @@
-import { ApplicationProvider, Layout, Text, Button } from '@ui-kitten/components';
+import { ApplicationProvider, Input, Layout, Text, Button } from '@ui-kitten/components';
+import { mapping, light as lightTheme } from '@eva-design/eva';
+
+
 import { StyleSheet, View, Dimensions, TouchableOpacity } from 'react-native'
 import React from 'react'
 import { Formik } from 'formik';

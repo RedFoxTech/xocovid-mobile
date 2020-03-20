@@ -10,6 +10,8 @@ import {
   Toggle
 } from '@ui-kitten/components'
 
+import ModalWapper from './../components/Modal'
+
 import Constants from 'expo-constants'
 import * as Location from 'expo-location'
 import * as Permissions from 'expo-permissions'
@@ -26,7 +28,8 @@ class Classification extends React.Component {
     this.setSelected = this.setSelected.bind(this)
   }
   state = {
-    checked: false
+    checked: false,
+    visibleModal: false
   }
   data = [
     { text: 'Cansaço', selected: false },
@@ -81,9 +84,10 @@ class Classification extends React.Component {
                   <Text>Teve contato com alguma pessoa com caso confirmado nos ultimos 15 dias?</Text>
                   </View>
               </ProgressStep>
-              <ProgressStep label="" nextBtnTextStyle={buttonTextStyle} previousBtnTextStyle={buttonTextStyle}  nextBtnText='Confirmar' previousBtnText='Voltar'>
+              <ProgressStep onSubmit={() => this.setState( { visibleModal: true } )} label="" nextBtnTextStyle={buttonTextStyle} previousBtnTextStyle={buttonTextStyle}  finishBtnText='Confirmar' previousBtnText='Voltar'>
                   <View style={{ alignItems: 'center' }}>
                       <Text>Esteve em algum outro pais nos ultimos 14 dias?</Text>
+                      <ModalWapper visible={this.state.visibleModal}/>
                   </View>
               </ProgressStep>
           </ProgressSteps>
