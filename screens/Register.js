@@ -1,12 +1,14 @@
 import React from 'react';
-import { View, StyleSheet, Dimensions, Text } from 'react-native';
+import { View, StyleSheet, Dimensions, Text, Alert } from 'react-native';
 import { Button } from '@ui-kitten/components';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
 import Input from '../components/Input';
 import ErrorMessages from '../constants/ErrorMessages';
+// import Alert from '../components/Alert';
 
+import { createUser } from './../services/user'
 
 const screenWidth = Dimensions.get('screen').width - 20;
 
@@ -39,7 +41,7 @@ const styles = StyleSheet.create({
 
 const Register = ({ navigation }) => {
   const validationSchema = Yup.object().shape({
-    displayName: Yup.string()
+    name: Yup.string()
       .required(ErrorMessages.required),
     age: Yup.number()
       .required(ErrorMessages.required),
@@ -51,10 +53,17 @@ const Register = ({ navigation }) => {
   });
   const formatNumberMessage = message => message && typeof message === 'string' && /age must be a `number`/.test(message) && ErrorMessages.number;
 
+  
   const handleSubmit = values => {
-    console.log(values);
-
-    navigation.navigate('Maps');
+    createUser(values)
+    .then(() => Alert.alert(
+      'Cadastrado',
+      'Perfil cadastrado com sucesso!',
+      [
+        {text: 'OK', onPress: () => navigation.navigate('Home')},
+    ]))
+    .catch(() => Alert.alert( 'Ocorreu um erro', 'Verifique os dados ou tente mais tarde'))
+    
   }
 
   return (
@@ -67,7 +76,7 @@ const Register = ({ navigation }) => {
           isInitialValid
         >
           {props => {
-            const { values: { email, password, displayName, age }, handleSubmit, handleChange, handleBlur, errors, touched } = props
+            const { values: { email, password, name, age }, handleSubmit, handleChange, handleBlur, errors, touched } = props
   
             return (
               <>
@@ -78,10 +87,10 @@ const Register = ({ navigation }) => {
                   labelStyle={styles.inputLabel}
                   label="Nome completo"
                   placeholder="Digite seu nome completo"
-                  onChangeText={handleChange('displayName')}
-                  value={displayName}
-                  onBlur={handleBlur('displayName')}
-                  caption={touched.displayName && errors.displayName}
+                  onChangeText={handleChange('name')}
+                  value={name}
+                  onBlur={handleBlur('name')}
+                  caption={touched.name && errors.name}
                 />
                 <Input
                   style={styles.input}
