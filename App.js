@@ -5,6 +5,7 @@ import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
+import FlashMessage from 'react-native-flash-message';
 
 import 'react-native-gesture-handler';
 
@@ -91,6 +92,7 @@ export default function App(props) {
               <Stack.Screen name="Classification" component={Classification} />
             </Stack.Navigator>
           </NavigationContainer>
+          <FlashMessage position="top" />
       </ ApplicationProvider>
       </>
     )
