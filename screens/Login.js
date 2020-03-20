@@ -38,52 +38,23 @@ const singIn =  (navigation, setMsgError) => (email = 'israeldantasleite@gmail.c
     return firebase.auth().signInWithEmailAndPassword(email, password)
       .then(data => {
         console.log('data: ', data)
-        navigation.navigate('Maps')
+        navigation.push('Maps')
       }).catch(() => setMsgError('Email ou senha invalidos'))
 }
 
-const loginGoogle = () => {
-  console.log('google press')
-  return firebase.auth().signInWithPopup(provider).then(function(result) {
-    // This gives you a Google Access Token. You can use it to access the Google API.
-    console.log('result: ', result)
-    var token = result.credential.accessToken
-    // The signed-in user info.
-    var user = result.user
-    // ...
-  }).catch(function(error) {
-    // Handle Errors here.
-    console.log('cathc google ', error)
-    var errorCode = error.code
-    var errorMessage = error.message
-    // The email of the user's account used.
-    var email = error.email
-    // The firebase.auth.AuthCredential type that was used.
-    var credential = error.credential
-    // ...
-  })
-}
-
 const screenWidth = Dimensions.get('screen').width - 20
-const singInFunc = (navigation) => () => {
-    singIn().then(data => {
-      console.log('data: ', data)
-      navigation.navigate('Maps')
-    }).catch(() => setMsgError('Email ou senha invalidos'))
-}
+
 const Login = ({ navigation }) => {
-  const [disabledButton, setDisabledButton] = React.useState(true)
   const [msg, setMsgError] = React.useState('')
   const [email, setEmail] = React.useState(undefined)
   const [password, setPassword] = React.useState(undefined)
-  const desableButtonChange = () => {
-    setDisabledButton(!disabledButton)
-  }
+
   return (
     <Layout style={styles.container}>
       <Text style={styles.title}>
-        Entre com seu email e senha: {msg}
+        Entre com seu email e senha: 
       </Text>
+      <Text>{msg}</Text>
       <Input
         key='12'
         style={styles.input}
@@ -98,6 +69,7 @@ const Login = ({ navigation }) => {
         style={styles.input}
         labelStyle={styles.inputLabel}
         value={password}
+        secureTextEntry={true}
         onChangeText={setPassword}
         label='Senha'
         placeholder='Digite a sua senha'
