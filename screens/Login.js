@@ -1,109 +1,86 @@
-import { ApplicationProvider, Input, Layout, Text, Button } from '@ui-kitten/components'
-import { mapping, light as lightTheme } from '@eva-design/eva'
-
+import { Layout, Text, Button } from '@ui-kitten/components';
 import { StyleSheet, View, Dimensions, TouchableOpacity } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Formik } from 'formik';
+import * as Yup from 'yup';
+import { showMessage } from 'react-native-flash-message';
 
-import firebase from 'firebase'
+import axios from '../services/axios';
+import Input from '../components/Input';
+import ErrorMessages from '../constants/ErrorMessages';
 
-const firebaseConfig = {
-  apiKey: "AIzaSyDfmiiASY6m5h_sZaH3J9z-sGflCAWxzsY",
-  authDomain: "redfox-nearid.firebaseapp.com",
-  databaseURL: "https://redfox-nearid.firebaseio.com",
-  projectId: "redfox-nearid",
-  storageBucket: "redfox-nearid.appspot.com",
-  messagingSenderId: "76166229815",
-  appId: "1:76166229815:web:8a8919cd10587a33b3f4b2",
-  measurementId: "G-X0YY82TX5G"
-}
+const screenWidth = Dimensions.get('screen').width - 20;
 
-firebase.initializeApp(firebaseConfig)
-firebase.auth().languageCode = 'pt'
-
-const provider = new firebase.auth.GoogleAuthProvider()
-
-const createUser = () => {
-  console.log('create user')
-
-  return firebase.auth().createUserWithEmailAndPassword('israeldantasleite@gmail.com', '12341354351352').catch(function(error) {
-    // Handle Errors here.
-    var errorCode = error.code
-    var errorMessage = error.message
-    // ...
-  })
-}
-
-const singIn =  (navigation, setMsgError) => (email = 'israeldantasleite@gmail.com', password = '12341354351352') => () =>{
-    return firebase.auth().signInWithEmailAndPassword(email, password)
-      .then(data => {
-        console.log('data: ', data)
-        navigation.navigate('Maps')
-      }).catch(() => setMsgError('Email ou senha invalidos'))
-}
-
-const loginGoogle = () => {
-  console.log('google press')
-  return firebase.auth().signInWithPopup(provider).then(function(result) {
-    // This gives you a Google Access Token. You can use it to access the Google API.
-    console.log('result: ', result)
-    var token = result.credential.accessToken
-    // The signed-in user info.
-    var user = result.user
-    // ...
-  }).catch(function(error) {
-    // Handle Errors here.
-    console.log('cathc google ', error)
-    var errorCode = error.code
-    var errorMessage = error.message
-    // The email of the user's account used.
-    var email = error.email
-    // The firebase.auth.AuthCredential type that was used.
-    var credential = error.credential
-    // ...
-  })
-}
-
-const screenWidth = Dimensions.get('screen').width - 20
-const singInFunc = (navigation) => () => {
-    singIn().then(data => {
-      console.log('data: ', data)
-      navigation.navigate('Maps')
-    }).catch(() => setMsgError('Email ou senha invalidos'))
-}
 const Login = ({ navigation }) => {
-  const [disabledButton, setDisabledButton] = React.useState(true)
-  const [msg, setMsgError] = React.useState('')
-  const [email, setEmail] = React.useState(undefined)
-  const [password, setPassword] = React.useState(undefined)
-  const desableButtonChange = () => {
-    setDisabledButton(!disabledButton)
+  const authenticateUser = ({ user, token }) => {
+    // Lógica de salvar usuário e token
   }
+
+  const handleSubmit = data => {
+    axios.post('/user/sign-in', data)
+      .then(authenticateUser)
+      .then(() => navigation.navigate('Maps'))
+      .catch(() => {
+        showMessage({
+          type: 'danger',
+          message: ErrorMessages.req
+        })
+      })
+  }
+
+  const validationSchema = Yup.object().shape({
+    email: Yup.string()
+      .email(ErrorMessages.email)
+      .required(ErrorMessages.required),
+    password: Yup.string()
+      .required(ErrorMessages.required)
+  })
+
   return (
     <Layout style={styles.container}>
       <Text style={styles.title}>
-        Entre com seu email e senha: {msg}
+        Entre com seu email e senha:
       </Text>
-      <Input
-        key='12'
-        style={styles.input}
-        labelStyle={styles.inputLabel}
-        value={email}
-        onChangeText={setEmail}
-        label='Email'
-        placeholder='Digite o seu email'
-      />
-      <Input
-        key='123'
-        style={styles.input}
-        labelStyle={styles.inputLabel}
-        value={password}
-        onChangeText={setPassword}
-        label='Senha'
-        placeholder='Digite a sua senha'
-      />
-      <Text style={styles.forgetPassword}> Esqueci minha senha! </Text>
-      <Button style={styles.loginBtn} onPress={singIn(navigation, setMsgError)(email, password)}> ENTRAR </Button>
+      <Formik
+        initialValues={{ password: '', email: '' }}
+        onSubmit={handleSubmit}
+        validationSchema={validationSchema}
+      >
+        {props => {
+          const { values: { email, password }, handleSubmit, handleChange, handleBlur, errors, touched } = props
+
+          return (
+            <>
+              <Input
+                name="email"
+                style={styles.input}
+                labelStyle={styles.inputLabel}
+                label='Email'
+                onChangeText={handleChange('email')}
+                onBlur={handleBlur('email')}
+                caption={touched.email && errors.email}
+                placeholder='Digite o seu email'
+                type="email"
+                value={email}
+              />
+              <Input
+                name="password"
+                style={styles.input}
+                labelStyle={styles.inputLabel}
+                label='Senha'
+                type="password"
+                onChangeText={handleChange('password')}
+                onBlur={handleBlur('password')}
+                caption={touched.password && errors.password}
+                placeholder='Digite a sua senha'
+                value={password}
+              />
+              <Text style={styles.forgetPassword}> Esqueci minha senha! </Text>
+              <Button style={styles.loginBtn} onPress={handleSubmit}> ENTRAR </Button>
+            </>
+          )
+        }}
+      </Formik>
       <TouchableOpacity
         style={styles.containerRegister}
         onPress={() => navigation.navigate('Register')}
@@ -118,18 +95,18 @@ const Login = ({ navigation }) => {
       <Text style={styles.orEnter}>
         ou entre com
       </Text>
-      {/* <View style={styles.socialMediaContainer}>
-        <Button style={{ ...styles.gBtn, ...styles.socialMediaBtn }} onPress={loginGoogle}>
+      <View style={styles.socialMediaContainer}>
+        <Button style={{ ...styles.gBtn, ...styles.socialMediaBtn }}>
           <Text> G </Text>
           <Text> Google </Text>
         </Button>
-        <Button style={{ ...styles.socialMediaBtn, ...styles.fBtn }} >
+        <Button style={{ ...styles.socialMediaBtn, ...styles.fBtn }}>
           <Text style={styles.fBtnText}> F </Text>
           <Text style={styles.fBtnText}> Facebook </Text>
         </Button>
-      </View> */}
+      </View>
     </Layout>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
