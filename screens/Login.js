@@ -8,19 +8,21 @@ import { showMessage } from 'react-native-flash-message';
 import axios from '../services/axios';
 import Input from '../components/Input';
 import ErrorMessages from '../constants/ErrorMessages';
+import { saveToken } from '../services/user';
 
 const screenWidth = Dimensions.get('screen').width - 20;
 
 const Login = ({ navigation }) => {
-  const authenticateUser = ({ user, token }) => {
-    // Lógica de salvar usuário e token
+  const authenticateUser = ({ token }) => {
+    saveToken(token);
   }
 
   const handleSubmit = data => {
     axios.post('/user/sign-in', data)
-      .then(authenticateUser)
+      .then(async ({ data }) => await authenticateUser(data))
       .then(() => navigation.navigate('Maps'))
-      .catch(() => {
+      .catch((err) => {
+        console.log(err)
         showMessage({
           type: 'danger',
           message: ErrorMessages.req
