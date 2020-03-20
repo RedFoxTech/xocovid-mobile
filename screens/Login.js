@@ -2,8 +2,8 @@ import { ApplicationProvider, Input, Layout, Text, Button } from '@ui-kitten/com
 import { mapping, light as lightTheme } from '@eva-design/eva'
 
 import { StyleSheet, View, Dimensions, TouchableOpacity } from 'react-native'
-
 import React from 'react'
+import { Formik } from 'formik';
 
 import firebase from 'firebase'
 
@@ -138,8 +138,6 @@ const styles = StyleSheet.create({
   },
   input: {
     backgroundColor: '#ECEFF1',
-    // borderWidth: 1,
-    // borderColor: '#A1AAAE'
   },
   inputLabel: {
     color: '#414A4E'
