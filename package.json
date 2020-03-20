@@ -44,7 +44,7 @@
     "react-native-svg": "^12.0.3",
     "react-native-web": "~0.11.7",
     "yup": "^0.28.3",
-    "react-native-unimodules": "^0.7.0",
+    "react-native-unimodules": "^0.7.0"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",
