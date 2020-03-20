@@ -6,8 +6,6 @@ import { Ionicons } from '@expo/vector-icons';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 
-import firebase from 'firebase';
-
 import 'react-native-gesture-handler';
 
 import Maps from './screens/Maps'
@@ -31,31 +29,11 @@ const Stack = createStackNavigator();
 //   </Layout>
 // );
 
-const firebaseConfig = {
-  apiKey: "AIzaSyDfmiiASY6m5h_sZaH3J9z-sGflCAWxzsY",
-  authDomain: "redfox-nearid.firebaseapp.com",
-  databaseURL: "https://redfox-nearid.firebaseio.com",
-  projectId: "redfox-nearid",
-  storageBucket: "redfox-nearid.appspot.com",
-  messagingSenderId: "76166229815",
-  appId: "1:76166229815:web:8a8919cd10587a33b3f4b2",
-  measurementId: "G-X0YY82TX5G"
-};
-
-firebase.initializeApp(firebaseConfig);
-firebase.auth().languageCode = 'pt';
-
-const googleProvider = new firebase.auth.GoogleAuthProvider();
 
 // firebase.analytics();
 
 export default function App(props) {
 
-  firebase.auth().createUserWithEmailAndPassword('israeldantas@gmail.com', '12312fasda').catch(function(error) {
-    // Handle Errors here.
-    console.log('error: ', error)
-    // ...
-  });
 
   const [isLoadingComplete, setLoadingComplete] = React.useState(false);
   const [initialNavigationState, setInitialNavigationState] = React.useState();
