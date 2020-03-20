@@ -1,9 +1,6 @@
-import { AsyncStorage } from "react-native";
+import axios from './axios'
 
-export const getUser = async () => AsyncStorage.getItem('user')
-
-export const saveUser = async val => AsyncStorage.setItem('user', val);
-
-export const getToken = async () => AsyncStorage.getItem('token')
-
-export const saveToken = async val => AsyncStorage.setItem('token', val);
+export const createUser = (user) => {
+    console.log('axios', user)
+    return axios.post('user', user)
+}
