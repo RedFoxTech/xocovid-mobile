@@ -1,57 +1,85 @@
-import { ApplicationProvider, Input, Layout, Text, Button } from '@ui-kitten/components';
-import { mapping, light as lightTheme } from '@eva-design/eva';
-
+import { ApplicationProvider, Layout, Text, Button } from '@ui-kitten/components';
 import { StyleSheet, View, Dimensions, TouchableOpacity } from 'react-native'
-
 import React from 'react'
+import { Formik } from 'formik';
+import Input from '../components/Input';
 
 const screenWidth = Dimensions.get('screen').width - 20;
 
-const Login = ({ navigation }) => (
-  <Layout style={styles.container}>
-    <Text style={styles.title}>
-      Entre com seu email e senha:
-    </Text>
-    <Input
-      style={styles.input}
-      labelStyle={styles.inputLabel}
-      label='Email'
-      placeholder='Digite o seu email'
-    />
-    <Input
-      style={styles.input}
-      labelStyle={styles.inputLabel}
-      label='Senha'
-      placeholder='Digite a sua senha'
-    />
-    <Text style={styles.forgetPassword}> Esqueci minha senha! </Text>
-    <Button style={styles.loginBtn} onPress={() => navigation.navigate('Maps')}> ENTRAR </Button>
-    <TouchableOpacity
-      style={styles.containerRegister}
-      onPress={() => navigation.navigate('Register')}
-    >
-      <Text>
-        Não tem conta?
+const Login = ({ navigation }) => {
+  const handleSubmit = data => {
+    console.log(data);
+
+    navigation.navigate('Maps');
+  }
+
+  return (
+    <Layout style={styles.container}>
+      <Text style={styles.title}>
+        Entre com seu email e senha:
       </Text>
-      <Text style={styles.register}>
-        CADASTRE-SE
+      <Formik
+        initialValues={{ password: '', email: '' }}
+        onSubmit={handleSubmit}
+      >
+        {props => {
+          const { values: { email, password }, handleSubmit, handleChange } = props
+
+          return (
+            <>
+              <Input
+                name="email"
+                style={styles.input}
+                labelStyle={styles.inputLabel}
+                label='Email'
+                onChangeText={handleChange('email')}
+                placeholder='Digite o seu email'
+                type="email"
+                value={email}
+              />
+              <Input
+                name="password"
+                style={styles.input}
+                labelStyle={styles.inputLabel}
+                label='Senha'
+                type="password"
+                onChangeText={handleChange('password')}
+                placeholder='Digite a sua senha'
+                value={password}
+              />
+              <Text style={styles.forgetPassword}> Esqueci minha senha! </Text>
+              <Button style={styles.loginBtn} onPress={handleSubmit}> ENTRAR </Button>
+            </>
+          )
+        }}
+      </Formik>
+      <TouchableOpacity
+        style={styles.containerRegister}
+        onPress={() => navigation.navigate('Register')}
+      >
+        <Text>
+          Não tem conta?
+        </Text>
+        <Text style={styles.register}>
+          CADASTRE-SE
+        </Text>
+      </TouchableOpacity>
+      <Text style={styles.orEnter}>
+        ou entre com
       </Text>
-    </TouchableOpacity>
-    <Text style={styles.orEnter}>
-      ou entre com
-    </Text>
-    <View style={styles.socialMediaContainer}>
-      <Button style={{ ...styles.gBtn, ...styles.socialMediaBtn }}>
-        <Text> G </Text>
-        <Text> Google </Text>
-      </Button>
-      <Button style={{ ...styles.socialMediaBtn, ...styles.fBtn }}>
-        <Text style={styles.fBtnText}> F </Text>
-        <Text style={styles.fBtnText}> Facebook </Text>
-      </Button>
-    </View>
-  </Layout>
-);
+      <View style={styles.socialMediaContainer}>
+        <Button style={{ ...styles.gBtn, ...styles.socialMediaBtn }}>
+          <Text> G </Text>
+          <Text> Google </Text>
+        </Button>
+        <Button style={{ ...styles.socialMediaBtn, ...styles.fBtn }}>
+          <Text style={styles.fBtnText}> F </Text>
+          <Text style={styles.fBtnText}> Facebook </Text>
+        </Button>
+      </View>
+    </Layout>
+  );
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -87,8 +115,6 @@ const styles = StyleSheet.create({
   },
   input: {
     backgroundColor: '#ECEFF1',
-    // borderWidth: 1,
-    // borderColor: '#A1AAAE'
   },
   inputLabel: {
     color: '#414A4E'
