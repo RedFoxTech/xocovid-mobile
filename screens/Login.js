@@ -8,7 +8,8 @@ import { showMessage } from 'react-native-flash-message';
 import axios from '../services/axios';
 import Input from '../components/Input';
 import ErrorMessages from '../constants/ErrorMessages';
-import { saveToken } from '../services/user';
+import { loginUser } from '../services/user';
+import { saveToken } from '../services/authenticate';
 
 const screenWidth = Dimensions.get('screen').width - 20;
 
@@ -18,7 +19,7 @@ const Login = ({ navigation }) => {
   }
 
   const handleSubmit = data => {
-    axios.post('/user/sign-in', data)
+    loginUser(data)
       .then(async ({ data }) => await authenticateUser(data))
       .then(() => navigation.navigate('Maps'))
       .catch((err) => {
