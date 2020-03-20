@@ -5,6 +5,7 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 
 import Input from '../components/Input';
+import ErrorMessages from '../constants/ErrorMessages';
 
 
 const screenWidth = Dimensions.get('screen').width - 20;
@@ -37,24 +38,18 @@ const styles = StyleSheet.create({
 })
 
 const Register = ({ navigation }) => {
-  const errorMessages = {
-    required: 'Campo obrigatório.',
-    email: 'Formato inválido.',
-    number: 'Campo precisa ser um número.'
-  };
-
   const validationSchema = Yup.object().shape({
     displayName: Yup.string()
-      .required(errorMessages.required),
+      .required(ErrorMessages.required),
     age: Yup.number()
-      .required(errorMessages.required),
+      .required(ErrorMessages.required),
     email: Yup.string()
-      .email(errorMessages.email)
-      .required(errorMessages.required),
+      .email(ErrorMessages.email)
+      .required(ErrorMessages.required),
     password: Yup.string()
-      .required(errorMessages.required)
+      .required(ErrorMessages.required)
   });
-  const formatNumberMessage = message => message && typeof message === 'string' && /age must be a `number`/.test(message) && errorMessages.number;
+  const formatNumberMessage = message => message && typeof message === 'string' && /age must be a `number`/.test(message) && ErrorMessages.number;
 
   const handleSubmit = values => {
     console.log(values);
