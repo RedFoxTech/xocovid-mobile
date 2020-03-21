@@ -1,18 +1,15 @@
-import { ApplicationProvider, Layout, Text, Button, Input, Icon } from '@ui-kitten/components';
-import { mapping, light as lightTheme } from '@eva-design/eva';
+import { Layout, Text, Button } from '@ui-kitten/components';
 
-import { StyleSheet, View, Dimensions } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 import React from 'react';
 
 import MapView, { Polygon, Marker } from 'react-native-maps'
 
 import { findPoints } from './../services/points'
 
-import Constants from 'expo-constants'
-import * as Location from 'expo-location'
-import * as Permissions from 'expo-permissions'
-
-import RenderIcon from './../components/renderIcon'
+import { findLocation } from './../services/geolocation'
+import { updateOrCreateUserStatus } from './../services/userStatus'
+import { showMessage, hideMessage } from 'react-native-flash-message';
 
 class Maps extends React.Component {
     state = {
@@ -26,77 +23,79 @@ class Maps extends React.Component {
         
         const { navigation } = props
         this.navigation = navigation
-        if (Platform.OS === 'android' && !Constants.isDevice) {
-            this.setState({
-              errorMessage: 'Oops, this will not work on Sketch in an Android emulator. Try it on your device!',
-            });
-          } else {
-            this._getLocationAsync();
-          }
+        findLocation()
+          .then(location => {
+            findPoints({ ...location.coords }).then(data => {
+              this.points = data.data
+              this.forceUpdate()
+            })
+            this.setState({ location })
+          })
+          .catch(err => showMessage({
+            message: 'Ocorreu um erro, por favor tente novamente',
+            type: 'danger'
+          }))
+        
     }
-    _getLocationAsync = async () => {
-        let { status } = await Permissions.askAsync(Permissions.LOCATION);
-        if (status !== 'granted') {
-          this.setState({
-            errorMessage: 'Permission to access location was denied',
-          });
-        }
-        const location = await Location.getCurrentPositionAsync({})
-        findPoints({ ...location.coords }).then(data => {
-          this.points = data.data
-          this.forceUpdate()
-        })
-        this.setState({ location })
-      }
-  render() {
-    return (
-        <>
-            <Layout style={styles.containerMargin}>
-                <Text>Como você está se sentindo? </Text>
-            </Layout>
-            <Layout style={styles.container}>
-                <Layout style={styles.layout50} level='2'>
-                    {/* <Text>Mal</Text> */}
-                    <Button status='success'>Bem</Button>
-                </Layout>
+    userStatus = () => {
+      showMessage({
+        message: 'Registrando...',
+        type: 'info'
+      })
+      updateOrCreateUserStatus({
+        probability: 0,
+        symptoms: [],
+        point: [this.state.location.coords.latitude, this.state.location.coords.longitude]
+       }) 
+    }
+    render() {
+      return (
+          <>
+              <Layout style={styles.containerMargin}>
+                  <Text>Como você está se sentindo? </Text>
+              </Layout>
+              <Layout style={styles.container}>
+                  <Layout style={styles.layout50} level='2'>
+                      <Button status='success' onPress={this.userStatus}>Bem</Button>
+                  </Layout>
 
-                <Layout style={styles.layout50} level='1'>
-                    <Button onPress={() => this.navigation.navigate('Classification')} status='danger'>Mal</Button>
-                </Layout>
-            </Layout>
-            { this.state.location ? <MapView style={styles.mapStyle} >
-              <Marker
+                  <Layout style={styles.layout50} level='1'>
+                      <Button onPress={() => this.navigation.navigate('Classification')} status='danger'>Mal</Button>
+                  </Layout>
+              </Layout>
+              { this.state.location ? <MapView style={styles.mapStyle} >
+                <Marker
+                    coordinate={{ 
+                      latitude: this.state.location.coords.latitude,
+                      longitude: this.state.location.coords.longitude
+                    }}              
+                    pinColor={'#000fff'}
+                  />
+                {
+                this.points.map((item, i) => <Marker
+                  key={i}
                   coordinate={{ 
-                    latitude: this.state.location.coords.latitude,
-                    longitude: this.state.location.coords.longitude
+                    latitude: item.coordinates[0],
+                    longitude: item.coordinates[1]
                   }}              
-                  pinColor={'#000fff'}
-                />
-              {
-              this.points.map((item, i) => <Marker
-                key={i}
-                coordinate={{ 
-                  latitude: item.coordinates[0],
-                  longitude: item.coordinates[1]
-                }}              
-                pinColor={'#000000'}
-              />)
-            }
-            </MapView> : <Text> carregando...</Text> }
-            <Layout style={styles.container}>
+                  pinColor={'#000000'}
+                />)
+              }
+              </MapView> : <Text> carregando...</Text> }
+              <Layout style={styles.container}>
 
-                <Layout style={styles.layout} level='2'>
-                    <Text>{this.points.length}</Text>
-                    <Text>Casos</Text>
-                </Layout>
+                  <Layout style={styles.layout} level='2'>
+                      <Text>{this.points.length}</Text>
+                      <Text>Casos</Text>
+                  </Layout>
 
-                <Layout style={styles.layoutCenter} level='1'>
-                    <Text>Casos próximos a você</Text>
-                </Layout>
-            </Layout>
-        </>
-    )
-  }
+                  <Layout style={styles.layoutCenter} level='1'>
+                      <Text>Casos próximos a você</Text>
+                  </Layout>
+              </Layout>
+          </>
+      )
+    }
 }
 
 

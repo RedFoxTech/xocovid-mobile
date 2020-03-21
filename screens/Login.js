@@ -3,7 +3,7 @@ import { StyleSheet, View, Dimensions, TouchableOpacity } from 'react-native'
 import React, { useEffect } from 'react'
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import { showMessage } from 'react-native-flash-message';
+import { showMessage, hideMessage } from 'react-native-flash-message';
 
 import axios from '../services/axios';
 import Input from '../components/Input';
@@ -21,6 +21,10 @@ const Login = ({ navigation }) => {
 
   const handleSubmit = data => {
     loginUser(data)
+      .then(showMessage({
+        message: "Entrando...",
+        type: "info",
+      }))
       .then(({ data }) => authenticateUser(data))
       .then(() => navigation.navigate('Maps'))
       .catch((err) => {        
