@@ -29,7 +29,17 @@ class Classification extends React.Component {
   }
   state = {
     checked: false,
-    visibleModal: false
+    visibleModal: false,
+    suspiciousPeople: false,
+    casesConfirmed: false
+  }
+  onNextStep = () => {
+    this.forceUpdate()
+    // if (!this.state.isValid) {
+    //   this.setState({ errors: true });
+    // } else {
+    //   this.setState({ errors: false });
+    // }
   }
   data = [
     { text: 'Cansaço', selected: false },
@@ -45,13 +55,16 @@ class Classification extends React.Component {
   ];
 
   setSelected() {
-    
     return item => () => {
       console.log('item: ', item.selected, item.text)
       item.selected = !item.selected
       this.forceUpdate()
       console.log('item: ', item.selected, item.text)
     }
+  }
+
+  submitForm() {
+
   }
 
   render() {
@@ -76,18 +89,34 @@ class Classification extends React.Component {
               <ProgressStep label="" nextBtnTextStyle={buttonTextStyle}  nextBtnText='Confirmar' previousBtnText='Voltar' previousBtnTextStyle={buttonTextStyle}>
                   <View style={{ alignItems: 'center' }}>
                       <Text>Teve contato com alguma pessoa com caso suspeito?</Text>
-                      <Text>sim nao</Text>
+                      <Layout style={styles.containerButtons}> 
+                        <Button status='danger' style={styles.button} onPress={() => this.setState({ suspiciousPeople: true })}>Sim</Button>
+                        <Button status='success' style={styles.button} onPress={() => this.setState({ suspiciousPeople: false })}>Não</Button>
+                      </Layout>
+                      <Layout>
+                      </Layout>
                   </View>
               </ProgressStep>
-              <ProgressStep label="" nextBtnTextStyle={buttonTextStyle} previousBtnTextStyle={buttonTextStyle}  nextBtnText='Confirmar' previousBtnText='Voltar'>
+              <ProgressStep label="" nextBtnTextStyle={buttonTextStyle} previousBtnTextStyle={buttonTextStyle}  nextBtnText='Confirmar' previousBtnText='Voltar' onNext={this.onNextStep}>
                   <View style={{ alignItems: 'center' }}>
                   <Text>Teve contato com alguma pessoa com caso confirmado nos ultimos 15 dias?</Text>
+                      <Layout style={styles.containerButtons}> 
+                        <Button status='danger' style={styles.button} onPress={() => this.setState({ casesConfirmed: true })}>Sim</Button>
+                        <Button status='success' style={styles.button} onPress={() => this.setState({ casesConfirmed: false })}>Não</Button>
+                      </Layout>
                   </View>
               </ProgressStep>
               <ProgressStep onSubmit={() => this.setState( { visibleModal: true } )} label="" nextBtnTextStyle={buttonTextStyle} previousBtnTextStyle={buttonTextStyle}  finishBtnText='Confirmar' previousBtnText='Voltar'>
                   <View style={{ alignItems: 'center' }}>
                       <Text>Esteve em algum outro pais nos ultimos 14 dias?</Text>
+                      <Layout style={styles.containerButtons}> 
+                        <Button status='danger' style={styles.button} onPress={() => this.setState({ casesConfirmed: true })}>Sim</Button>
+                        <Button status='success' style={styles.button} onPress={() => this.setState({ casesConfirmed: false })}>Não</Button>
+                        <Text>{JSON.stringify(this.state)}</Text>
+                        <Text>{JSON.stringify(this.data)}</Text>
+                      </Layout>
                       <ModalWapper visible={this.state.visibleModal}/>
+                      
                   </View>
               </ProgressStep>
           </ProgressSteps>
@@ -123,6 +152,8 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     flexWrap: 'wrap',
+    justifyContent: "center",
+    width: Dimensions.get('window').width,
     height: Dimensions.get('window').height,
   },
   button: {

@@ -80,8 +80,8 @@ const Register = ({ navigation }) => {
   
             return (
               <>
-              <Text>{JSON.stringify(errors)}</Text>
-              <Text>{JSON.stringify(touched)}</Text>
+              {/* <Text>{JSON.stringify(errors)}</Text>
+              <Text>{JSON.stringify(touched)}</Text> */}
                 <Input
                   style={styles.input}
                   labelStyle={styles.inputLabel}

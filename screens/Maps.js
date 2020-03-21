@@ -6,6 +6,8 @@ import React from 'react';
 
 import MapView, { Polygon, Marker } from 'react-native-maps'
 
+import { findPoints } from './../services/points'
+
 import Constants from 'expo-constants'
 import * as Location from 'expo-location'
 import * as Permissions from 'expo-permissions'
@@ -18,8 +20,10 @@ class Maps extends React.Component {
         errorMessage: null,
     }
     navigation = null
+    points = []
     constructor (props) {
         super(props)
+        
         const { navigation } = props
         this.navigation = navigation
         if (Platform.OS === 'android' && !Constants.isDevice) {
@@ -37,38 +41,27 @@ class Maps extends React.Component {
             errorMessage: 'Permission to access location was denied',
           });
         }
-        let location = await Location.getCurrentPositionAsync({})
+        const location = await Location.getCurrentPositionAsync({})
+        findPoints({ ...location.coords }).then(data => {
+          this.points = data.data
+          this.forceUpdate()
+        })
         this.setState({ location })
       }
   render() {
     return (
         <>
-            {/* <Layout style={styles.container}>
-
-                <Layout style={styles.layout} level='3'>
-                </Layout>
-
-                <Layout style={styles.layoutCenter} level='2'>
-                    <Input
-                        placeholder='Buscar'
-                    />
-                </Layout>
-
-                <Layout style={styles.layout} level='1'>
-                </Layout>
-            </Layout> */}
-
             <Layout style={styles.containerMargin}>
                 <Text>Como você está se sentindo? </Text>
             </Layout>
             <Layout style={styles.container}>
                 <Layout style={styles.layout50} level='2'>
                     {/* <Text>Mal</Text> */}
-                    <Button>Bem</Button>
+                    <Button status='success'>Bem</Button>
                 </Layout>
 
                 <Layout style={styles.layout50} level='1'>
-                    <Button onPress={() => this.navigation.navigate('Classification')}>Mal</Button>
+                    <Button onPress={() => this.navigation.navigate('Classification')} status='danger'>Mal</Button>
                 </Layout>
             </Layout>
             { this.state.location ? <MapView style={styles.mapStyle} >
@@ -78,13 +71,22 @@ class Maps extends React.Component {
                     longitude: this.state.location.coords.longitude
                   }}              
                   pinColor={'#000fff'}
-                >
-              </Marker>
+                />
+              {
+              this.points.map((item, i) => <Marker
+                key={i}
+                coordinate={{ 
+                  latitude: item.coordinates[0],
+                  longitude: item.coordinates[1]
+                }}              
+                pinColor={'#000000'}
+              />)
+            }
             </MapView> : <Text> carregando...</Text> }
             <Layout style={styles.container}>
 
                 <Layout style={styles.layout} level='2'>
-                    <Text>05</Text>
+                    <Text>{this.points.length}</Text>
                     <Text>Casos</Text>
                 </Layout>
 

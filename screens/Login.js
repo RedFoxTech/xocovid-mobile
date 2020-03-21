@@ -15,15 +15,15 @@ const screenWidth = Dimensions.get('screen').width - 20;
 
 const Login = ({ navigation }) => {
   const authenticateUser = ({ token }) => {
+    console.log('token', token);
     saveToken(token);
   }
 
   const handleSubmit = data => {
     loginUser(data)
-      .then(async ({ data }) => await authenticateUser(data))
+      .then(({ data }) => authenticateUser(data))
       .then(() => navigation.navigate('Maps'))
-      .catch((err) => {
-        console.log(err)
+      .catch((err) => {        
         showMessage({
           type: 'danger',
           message: ErrorMessages.req
