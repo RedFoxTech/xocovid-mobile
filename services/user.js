@@ -8,5 +8,5 @@ export const createUser = (user) => {
 export const loginUser = (user) => {
   console.log('loginUser :', user)
 
-  return axios.post('/user/sign-in', data)
+  return axios.post('/user/sign-in', user)
 }

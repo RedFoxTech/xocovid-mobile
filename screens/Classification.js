@@ -33,7 +33,7 @@ class Classification extends React.Component {
   }
   data = [
     { text: 'Cansaço', selected: false },
-    { text: 'Congestão nasal', selected: true },
+    { text: 'Congestão nasal', selected: false },
     { text: 'Coriza', selected: false },
     { text: 'Dificuldade de respirar', selected: false },
     { text: 'Dor de cabeça', selected: false },
@@ -41,7 +41,7 @@ class Classification extends React.Component {
     { text: 'Dor no corpo', selected: false },
     { text: 'Febre', selected: false },
     { text: 'Tosse', selected: false },
-    { text: 'Mal start em geral', selected: false },
+    { text: 'Mal star em geral', selected: false },
   ];
 
   setSelected() {
