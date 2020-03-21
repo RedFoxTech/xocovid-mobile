@@ -75,8 +75,7 @@ const Register = ({ navigation }) => {
           validationSchema={validationSchema}
           isInitialValid
         >
-          {props => {
-            const { values: { email, password, name, age }, handleSubmit, handleChange, handleBlur, errors, touched } = props
+          {props => { const { values: { email, password, name, age }, handleSubmit, handleChange, handleBlur, errors, touched } = props
   
             return (
               <>
