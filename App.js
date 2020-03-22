@@ -23,6 +23,23 @@ import useLinking from './navigation/useLinking';
 import { ApplicationProvider, Layout, Text, Button, IconRegistry } from '@ui-kitten/components';
 import { mapping, light as lightTheme } from '@eva-design/eva';
 
+import * as BackgroundFetch from 'expo-background-fetch';
+import * as TaskManager from 'expo-task-manager';
+
+TaskManager.defineTask('testedaporratoda', () => {
+  try {
+    fetch('https://d8306412.ngrok.io/task')
+    // const receivedNewData = // do your background fetch here
+    alert('background featch running');
+    const receivedNewData = true
+    console.log('cron sucesso')
+    return receivedNewData ? BackgroundFetch.Result.NewData : BackgroundFetch.Result.NoData;
+  } catch (error) {
+    console.log('error cron', error)
+    return BackgroundFetch.Result.Failed;
+  }
+});
+
 const Stack = createStackNavigator();
 
 // const HomeScreen = () => (
@@ -32,10 +49,14 @@ const Stack = createStackNavigator();
 // );
 
 
+
 // firebase.analytics();
 
 export default function App(props) {
 
+  BackgroundFetch.registerTaskAsync('testedaporratoda', {
+    minimumInterval: 60
+  })
 
   const [isLoadingComplete, setLoadingComplete] = React.useState(false);
   const [initialNavigationState, setInitialNavigationState] = React.useState();

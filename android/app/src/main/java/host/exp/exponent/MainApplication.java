@@ -13,6 +13,8 @@ import okhttp3.OkHttpClient;
 
 // Needed for `react-native link`
 // import com.facebook.react.ReactApplication;
+import com.transistorsoft.rnbackgroundfetch.RNBackgroundFetchPackage;
+import com.jamesisaac.rnbackgroundtask.BackgroundTaskPackage;
 import io.invertase.firebase.RNFirebasePackage;
 
 public class MainApplication extends ExpoApplication implements AppLoaderPackagesProviderInterface<ReactPackage> {
@@ -30,6 +32,8 @@ public class MainApplication extends ExpoApplication implements AppLoaderPackage
 
         // Needed for `react-native link`
         // new MainReactPackage(),
+            new RNBackgroundFetchPackage(),
+            new BackgroundTaskPackage(),
             new RNFirebasePackage()
     );
   }

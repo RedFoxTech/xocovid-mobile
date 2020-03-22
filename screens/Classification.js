@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Platform, StyleSheet, View, Dimensions } from 'react-native'
 import MapView, { Polygon, Marker } from 'react-native-maps'
-import { ProgressSteps, ProgressStep } from 'react-native-progress-steps';
+import { ProgressSteps, ProgressStep } from 'react-native-progress-steps'; //f50052
 
 import { findLocation } from './../services/geolocation'
 import { updateOrCreateUserStatus } from './../services/userStatus'
