@@ -20,7 +20,7 @@ const buttonTextStyle = {
   color: '#393939'
 };
 
-const selectAppearance = selected =>  selected === true ? 'filled' : 'outline'
+const selectAppearance = selected => selected === true ? 'filled' : 'outline'
 
 class Classification extends React.Component {
   constructor(props) {
@@ -30,16 +30,17 @@ class Classification extends React.Component {
   state = {
     checked: false,
     visibleModal: false,
-    suspiciousPeople: false,
-    casesConfirmed: false,
-    yourCaseConfirmed: false,
+    suspiciousPeople: null,
+    casesConfirmed: null,
+    yourCaseConfirmed: null,
+    traveled: null
   }
   onNextStep = () => this.forceUpdate()
   requestUserStatus = params => location => {
-    updateOrCreateUserStatus({ 
+    updateOrCreateUserStatus({
       ...params,
       point: [location.coords.latitude, location.coords.longitude]
-     })
+    })
   }
   onSubmitProgress = (e) => {
     const symptoms = this.data.filter(item => item.selected).map(i => i.text)
@@ -73,97 +74,180 @@ class Classification extends React.Component {
   }
 
   render() {
+    const { suspiciousPeople, casesConfirmed, yourCaseConfirmed, traveled } = this.state;
+
     return (
-      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#ffffff'}}>
-          <ProgressSteps style={styles.ProgressSteps}>
-              <ProgressStep label="" nextBtnText='Confirmar' nextBtnTextStyle={buttonTextStyle} previousBtnTextStyle={buttonTextStyle}>
-                  <Layout style={styles.container}> 
-                    <Text>O que você está sentindo?</Text>
-                    <Layout style={styles.containerButtons}> 
-                      { 
-                        this.data.map((item, i) => {
-                          return <Button key={i} style={styles.button} onPress={this.setSelected(this.data)(item)} appearance={selectAppearance(item.selected)}>{item.text}</Button>
-                        })
-                      }
-                    </Layout>
-                    <Layout style={styles.buttonContainer}>
-                      <Button style={styles.buttonBottom} appearance='filled'>Confirmar</Button>
-                    </Layout>
-                  </Layout>
-              </ProgressStep>
-              <ProgressStep label="" nextBtnTextStyle={buttonTextStyle}  nextBtnText='Confirmar' previousBtnText='Voltar' previousBtnTextStyle={buttonTextStyle}>
-                  <View style={{ alignItems: 'center' }}>
-                      <Text>Teve contato com alguma pessoa com caso suspeito?</Text>
-                      <Layout style={styles.containerButtons}> 
-                        <Button status='danger' style={styles.button} onPress={() => this.setState({ suspiciousPeople: true })}>Sim</Button>
-                        <Button status='success' style={styles.button} onPress={() => this.setState({ suspiciousPeople: false })}>Não</Button>
-                      </Layout>
-                      <Layout>
-                      </Layout>
-                  </View>
-              </ProgressStep>
-              <ProgressStep label="" nextBtnTextStyle={buttonTextStyle} previousBtnTextStyle={buttonTextStyle}  nextBtnText='Confirmar' previousBtnText='Voltar' onNext={this.onNextStep}>
-                  <View style={{ alignItems: 'center' }}>
-                  <Text>Teve contato com alguma pessoa com caso confirmado nos ultimos 15 dias?</Text>
-                      <Layout style={styles.containerButtons}> 
-                        <Button status='danger' style={styles.button} onPress={() => this.setState({ casesConfirmed: true })}>Sim</Button>
-                        <Button status='success' style={styles.button} onPress={() => this.setState({ casesConfirmed: false })}>Não</Button>
-                      </Layout>
-                  </View>
-              </ProgressStep>
-              <ProgressStep label="" nextBtnTextStyle={buttonTextStyle} previousBtnTextStyle={buttonTextStyle}  nextBtnText='Confirmar' previousBtnText='Voltar' onNext={this.onNextStep}>
-                  <View style={{ alignItems: 'center' }}>
-                  <Text>Você teve é positivo para o covid-19?</Text>
-                      <Layout style={styles.containerButtons}> 
-                        <Button status='danger' style={styles.button} onPress={() => this.setState({ yourCaseConfirmed: true })}>Sim</Button>
-                        <Button status='success' style={styles.button} onPress={() => this.setState({ yourCaseConfirmed: false })}>Não</Button>
-                      </Layout>
-                  </View>
-              </ProgressStep>
-              <ProgressStep onSubmit={this.onSubmitProgress} label="" nextBtnTextStyle={buttonTextStyle} previousBtnTextStyle={buttonTextStyle}  finishBtnText='Confirmar' previousBtnText='Voltar'>
-                  <View style={{ alignItems: 'center' }}>
-                      <Text>Esteve em algum outro pais nos ultimos 14 dias?</Text>
-                      <Layout style={styles.containerButtons}> 
-                        <Button status='danger' style={styles.button} onPress={() => this.setState({ casesConfirmed: true })}>Sim</Button>
-                        <Button status='success' style={styles.button} onPress={() => this.setState({ casesConfirmed: false })}>Não</Button>
-                        {/* <Text>{JSON.stringify(this.state)}</Text>
+      <View style={{ flex: 1, backgroundColor: 'white' }}>
+        <ProgressSteps {...progressStepsStyle}>
+          <ProgressStep label="" nextBtnText='Confirmar' nextBtnTextStyle={buttonTextStyle} previousBtnTextStyle={buttonTextStyle}>
+            <Layout style={styles.container}>
+              <Text>O que você está sentindo?</Text>
+              <Layout style={styles.containerButtons}>
+                {
+                  this.data.map((item, i) => {
+                    return (
+                      <Button
+                        key={i}
+                        textStyle={item.selected ? styles.buttonFilledTextStyle : styles.buttonTextStyle}
+                        style={item.selected ? styles.buttonFilled : styles.button}
+                        onPress={this.setSelected(this.data)(item)}
+                      >{item.text}</Button>)
+                  })
+                }
+              </Layout>
+            </Layout>
+          </ProgressStep>
+          <ProgressStep label="" nextBtnTextStyle={buttonTextStyle} nextBtnText='Confirmar' previousBtnText='Voltar' previousBtnTextStyle={buttonTextStyle}>
+            <Layout style={styles.container}>
+              <View style={{ alignItems: 'center' }}>
+                <Text>Teve contato com alguma pessoa com caso suspeito?</Text>
+                <Layout style={styles.containerButtons}>
+                  <Button
+                    textStyle={suspiciousPeople === true ? styles.buttonFilledTextStyle : styles.buttonTextStyle}
+                    style={suspiciousPeople === true ? styles.buttonFilled : styles.button}
+                    onPress={() => this.setState({ suspiciousPeople: true })}
+                  >Sim</Button>
+                  <Button
+                    textStyle={suspiciousPeople === false ? styles.buttonFilledTextStyle : styles.buttonTextStyle}
+                    style={suspiciousPeople === false ? styles.buttonFilled : styles.button}
+                    onPress={() => this.setState({ suspiciousPeople: false })}
+                  >Não</Button>
+                </Layout>
+                <Layout>
+                </Layout>
+              </View>
+            </Layout>
+          </ProgressStep>
+          <ProgressStep label="" nextBtnTextStyle={buttonTextStyle} previousBtnTextStyle={buttonTextStyle} nextBtnText='Confirmar' previousBtnText='Voltar' onNext={this.onNextStep}>
+            <Layout style={styles.container}>
+              <View style={{ alignItems: 'center' }}>
+                <Text>Teve contato com alguma pessoa com caso confirmado nos ultimos 15 dias?</Text>
+                <Layout style={styles.containerButtons}>
+                  <Button
+                    textStyle={casesConfirmed === true ? styles.buttonFilledTextStyle : styles.buttonTextStyle}
+                    style={casesConfirmed === true ? styles.buttonFilled : styles.button}
+                    onPress={() => this.setState({ casesConfirmed: true })}
+                  >Sim</Button>
+                  <Button
+                    textStyle={casesConfirmed === false ? styles.buttonFilledTextStyle : styles.buttonTextStyle}
+                    style={casesConfirmed === false ? styles.buttonFilled : styles.button}
+                    onPress={() => this.setState({ casesConfirmed: false })}
+                  >Não</Button>
+                </Layout>
+              </View>
+            </Layout>
+          </ProgressStep>
+          <ProgressStep label="" nextBtnTextStyle={buttonTextStyle} previousBtnTextStyle={buttonTextStyle} nextBtnText='Confirmar' previousBtnText='Voltar' onNext={this.onNextStep}>
+            <Layout style={styles.container}>
+              <View>
+                <Text>Você teve é positivo para o covid-19?</Text>
+                <Layout style={styles.containerButtons}>
+                  <Button
+                    textStyle={yourCaseConfirmed === true ? styles.buttonFilledTextStyle : styles.buttonTextStyle}
+                    style={yourCaseConfirmed === true ? styles.buttonFilled : styles.button}
+                    onPress={() => this.setState({ yourCaseConfirmed: true })}
+                  >Sim</Button>
+                  <Button
+                    textStyle={yourCaseConfirmed === false ? styles.buttonFilledTextStyle : styles.buttonTextStyle}
+                    style={yourCaseConfirmed === false ? styles.buttonFilled : styles.button}
+                    onPress={() => this.setState({ yourCaseConfirmed: false })}
+                  >Não</Button>
+                </Layout>
+              </View>
+            </Layout>
+          </ProgressStep>
+          <ProgressStep onSubmit={this.onSubmitProgress} label="" nextBtnTextStyle={buttonTextStyle} previousBtnTextStyle={buttonTextStyle} finishBtnText='Confirmar' previousBtnText='Voltar'>
+            <Layout style={styles.container}>
+              <View style={{ alignItems: 'center' }}>
+                <Text>Esteve em algum outro pais nos ultimos 14 dias?</Text>
+                <Layout style={styles.containerButtons}>
+                  <Button
+                    textStyle={traveled === true ? styles.buttonFilledTextStyle : styles.buttonTextStyle}
+                    style={traveled === true ? styles.buttonFilled : styles.button}
+                    onPress={() => this.setState({ traveled: true })}
+                  >Sim</Button>
+                  <Button
+                    textStyle={traveled === false ? styles.buttonFilledTextStyle : styles.buttonTextStyle}
+                    style={traveled === false ? styles.buttonFilled : styles.button}
+                    onPress={() => this.setState({ traveled: false })}
+                  >Não</Button>
+                  {/* <Text>{JSON.stringify(this.state)}</Text>
                         <Text>{JSON.stringify(this.data)}</Text> */}
-                      </Layout>
-                      <ModalGuideLine nav={() => this.props.navigation.navigate('Maps')} visible={this.state.visibleModal}/>
-                      
-                  </View>
-              </ProgressStep>
-          </ProgressSteps>
+                </Layout>
+                <ModalGuideLine nav={() => this.props.navigation.navigate('Maps')} visible={this.state.visibleModal} />
+
+              </View>
+            </Layout>
+          </ProgressStep>
+        </ProgressSteps>
       </View>)
   }
 }
 
 export default Classification
 
+const progressStepsStyle = {
+  activeStepIconBorderColor: '#FD0057',
+  activeLabelColor: '#FD0057',
+  activeStepNumColor: '#FD0057',
+  activeStepIconColor: '#FD0057',
+  completedStepIconColor: '#FD0057',
+  completedProgressBarColor: '#FD0057',
+  completedCheckColor: '#FD0057',
+  progressBarColor: '#D3D8DC',
+  disabledStepIconColor: '#D3D8DC',
+  labelColor: '#D3D8DC',
+  disabledStepNumColor: '#D3D8DC',
+  borderWidth: 4
+};
+
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    flexGrow: 1,
+    flexBasis: 'auto',
+    borderTopLeftRadius: 16,
+    borderTopRightRadius: 16,
+    padding: 16
   },
   ProgressSteps: {
     flex: 1,
+    backgroundColor: '#000',
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   containerButtons: {
     flex: 1,
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: "center",
-    width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height,
   },
   button: {
     margin: 10,
+    backgroundColor: 'transparent',
+    borderColor: '#FD0057',
+    borderWidth: 2,
+    borderRadius: 8
+  },
+  buttonTextStyle: {
+    color: '#FD0057'
+  },
+  buttonFilled: {
+    margin: 10,
+    backgroundColor: '#FD0057',
+    borderColor: '#FD0057',
+    borderWidth: 2,
+    borderRadius: 8
+  },
+  buttonFilledTextStyle: {
+    color: '#FFFFFF'
   },
   buttonContainer: {
     flex: 1,
     justifyContent: 'flex-end',
     margin: 20
   },
-  buttonBottom: { 
+  buttonBottom: {
     maxHeight: Dimensions.get('window').height * 0.5
   },
   paragraph: {
