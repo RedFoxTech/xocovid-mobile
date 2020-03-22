@@ -13,13 +13,18 @@ const styles = StyleSheet.create({
         minHeight: 256,
         padding: 16,
     },
-    text: {
-        margin: 8,
+    textBold: {
+        marginTop: 5,
+        marginBottom: 5,
+        fontWeight: 'bold'
+    },
+    containerGuidelines: {
+        marginBottom: 5,
     },
     modalContainer: {
         justifyContent: 'center',
         alignItems: 'center',
-        width: 256,
+        width: 350,
         padding: 16,
     },
     backdrop: {
@@ -31,42 +36,62 @@ const renderModal = () => (
     <Layout
       level='1'
       style={styles.modalContainer}>
-      <Text>Atenção</Text>
-
-      <Text>
-          Baseado em suas respostas, é possível que esta situação se enquadre como caso suspeito ou provável de doença pelo coronavírus 2019 (codiv-19). No entanto, isto não se trata de um diagnóstico. A orientação é que você procure atendimento em uma unidade de  saúde mais próxima para avaliação médica
-      </Text>
-      <Text style={styles.text}>
-          Orientações: 
-          <Text style={styles.text}>
-            Use máscara facial
-          </Text >
-          <Text style={styles.text}>
-            Lave as mão frequentemente
-          </Text>
-          <Text>
-            Use álcool gel 70
-          </Text>
-          <Text>
-            Cubra a boca e nariz ao tossir
-          </Text>
-          <Text>
-            Não Compartilhe objetos de uso pessoal
-          </Text>
-          <Text>
-            Evite aglomerações
-          </Text>
-      </Text>
+      <Text style={styles.textBold}>Atenção</Text>
+      <Layout style={styles.containerGuidelines}>
+        {/* <Text>
+            Baseado em suas respostas, é possível que esta situação se enquadre como caso suspeito ou provável de doença pelo coronavírus 2019 (codiv-19).
+        </Text> */}
+      </Layout >
+      <Layout style={styles.containerGuidelines}>
+        <Text style={styles.textBold}>
+          Isto não se trata de um diagnóstico.
+        </Text>
+        <Text>
+             A orientação é que em casos extremos você procure atendimento em uma unidade de  saúde mais próxima para avaliação médica
+        </Text>
+      </Layout >
+          <Layout>
+            <Text style={styles.textBold}>
+            Orientações: 
+            </Text >
+          </Layout>
+          <Layout style={styles.containerGuidelines}>
+            
+            <Text >
+              Use máscara facial
+            </Text >
+          </Layout>
+          <Layout style={styles.containerGuidelines}>
+            <Text >
+              Lave as mão frequentemente
+            </Text>
+          </Layout>
+          <Layout style={styles.containerGuidelines}>
+            <Text>
+              Use álcool gel 70
+            </Text>
+          </Layout>
+          <Layout style={styles.containerGuidelines}>
+            <Text>
+              Cubra a boca e nariz ao tossir
+            </Text>
+          </Layout>
+          <Layout style={styles.containerGuidelines}>
+            <Text>
+              Não Compartilhe objetos de uso pessoal
+            </Text>
+          </Layout>
+          <Layout style={styles.containerGuidelines}>
+            <Text>
+              Evite aglomerações
+            </Text>
+          </Layout>
     </Layout>
   );
 
-const ModalWapper = ({ visible }) => {
-
-    // const [visible, setVisible] = React.useState(false);
+const ModalGuideLine = ({ visible, nav }) => {
     
-    const toggleModal = () => {
-        setVisible(!visible);
-    };
+    const toggleModal = () => nav()
     
     return (
         <Modal
@@ -78,4 +103,4 @@ const ModalWapper = ({ visible }) => {
     )
 }
 
-export default ModalWapper
+export default ModalGuideLine
