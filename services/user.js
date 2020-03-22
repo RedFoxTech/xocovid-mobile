@@ -5,6 +5,5 @@ export const createUser = (user) => {
 }
 
 export const loginUser = (user) => {
-  console.log('loginUser 2:', user)
   return axios.post('/user/sign-in', user)
 }

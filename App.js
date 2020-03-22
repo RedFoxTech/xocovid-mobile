@@ -9,6 +9,7 @@ import FlashMessage from 'react-native-flash-message';
 
 import 'react-native-gesture-handler';
 
+import Splash from './screens/SplashScreen'
 import Maps from './screens/Maps'
 import Login from './screens/Login'
 import Classification from './screens/Classification'
@@ -105,8 +106,9 @@ export default function App(props) {
       <ApplicationProvider mapping={mapping} theme={lightTheme}>
         <IconRegistry icons={EvaIconsPack} />
         {/* <Login/> */}
-          <NavigationContainer initialRouteName="Home">
+          <NavigationContainer initialRouteName="Start">
             <Stack.Navigator>
+              <Stack.Screen name="Start" component={Splash} />
               <Stack.Screen name="Home" component={Login} />
               <Stack.Screen name="Register" component={Register} />
               <Stack.Screen name="Maps" component={Maps} />
