@@ -91,7 +91,7 @@ export default function App(props) {
               <Stack.Screen name="Home" component={Login} />
               <Stack.Screen name="Register" component={Register} />
               <Stack.Screen name="Maps" component={Maps} options={{ headerShown: false }} />
-              <Stack.Screen name="Classification" component={Classification} />
+              <Stack.Screen name="Classification" component={Classification} options={{ title: 'Sintomas' }} />
             </Stack.Navigator>
           </NavigationContainer>
           <FlashMessage position="top" />

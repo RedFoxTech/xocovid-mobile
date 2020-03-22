@@ -40,16 +40,24 @@ class Maps extends React.Component {
     }
   }
 
-  userStatus = () => {
+  userStatus = async () => {
     showMessage({
       message: 'Registrando...',
       type: 'info'
     })
-    updateOrCreateUserStatus({
-      probability: 0,
-      symptoms: [],
-      point: [this.state.location.coords.latitude, this.state.location.coords.longitude]
-    })
+    try {
+      await updateOrCreateUserStatus({
+        probability: 0,
+        symptoms: [],
+        point: [this.state.location.coords.latitude, this.state.location.coords.longitude]
+      })
+    } catch (err) {
+      showMessage({
+        message: 'Ocorreu um erro, pro favor tente novamente',
+        type: 'danger'
+      })
+    }
+
   }
   render() {
     return (
