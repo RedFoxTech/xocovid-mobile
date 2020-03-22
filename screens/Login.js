@@ -9,11 +9,13 @@ import axios from '../services/axios';
 import Input from '../components/Input';
 import ErrorMessages from '../constants/ErrorMessages';
 import { loginUser } from '../services/user';
-import { saveToken } from '../services/authenticate';
+import { saveToken, getToken } from '../services/authenticate';
 
 const screenWidth = Dimensions.get('screen').width - 20;
 
 const Login = ({ navigation }) => {
+  getToken().then(data => data ? navigation.navigate('Maps') : null)
+  // getToken().then(console.log)
   const authenticateUser = ({ token }) => {
     console.log('token', token);
     saveToken(token);

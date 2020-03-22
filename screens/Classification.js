@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Platform, StyleSheet, View, Dimensions } from 'react-native'
 import MapView, { Polygon, Marker } from 'react-native-maps'
-import { ProgressSteps, ProgressStep } from 'react-native-progress-steps';
+import { ProgressSteps, ProgressStep } from 'react-native-progress-steps'; //f50052
 
 import { findLocation } from './../services/geolocation'
 import { updateOrCreateUserStatus } from './../services/userStatus'
@@ -75,7 +75,7 @@ class Classification extends React.Component {
   render() {
     return (
       <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#ffffff'}}>
-          <ProgressSteps style={styles.ProgressSteps}>
+          <ProgressSteps style={styles.ProgressSteps}  completedProgressBarColor="#f50052" completedStepIconColor="#f50052" activeStepIconBorderColor="#f50052">
               <ProgressStep label="" nextBtnText='Confirmar' nextBtnTextStyle={buttonTextStyle} previousBtnTextStyle={buttonTextStyle}>
                   <Layout style={styles.container}> 
                     <Text>O que você está sentindo?</Text>
@@ -95,8 +95,8 @@ class Classification extends React.Component {
                   <View style={{ alignItems: 'center' }}>
                       <Text>Teve contato com alguma pessoa com caso suspeito?</Text>
                       <Layout style={styles.containerButtons}> 
-                        <Button status='danger' style={styles.button} onPress={() => this.setState({ suspiciousPeople: true })}>Sim</Button>
-                        <Button status='success' style={styles.button} onPress={() => this.setState({ suspiciousPeople: false })}>Não</Button>
+                        <Button status='danger' style={styles.button} onPress={() => this.setState({ suspiciousPeople: true })} appearance={ selectAppearance(this.state.suspiciousPeople) }>Sim</Button>
+                        <Button status='success' style={styles.button} onPress={() => this.setState({ suspiciousPeople: false })} appearance={ selectAppearance(!this.state.suspiciousPeople) }>Não</Button>
                       </Layout>
                       <Layout>
                       </Layout>
@@ -106,8 +106,8 @@ class Classification extends React.Component {
                   <View style={{ alignItems: 'center' }}>
                   <Text>Teve contato com alguma pessoa com caso confirmado nos ultimos 15 dias?</Text>
                       <Layout style={styles.containerButtons}> 
-                        <Button status='danger' style={styles.button} onPress={() => this.setState({ casesConfirmed: true })}>Sim</Button>
-                        <Button status='success' style={styles.button} onPress={() => this.setState({ casesConfirmed: false })}>Não</Button>
+                        <Button status='danger' style={styles.button} onPress={() => this.setState({ casesConfirmed: true })} appearance={ selectAppearance(this.state.casesConfirmed) }>Sim</Button>
+                        <Button status='success' style={styles.button} onPress={() => this.setState({ casesConfirmed: false })} appearance={ selectAppearance(!this.state.casesConfirmed) }>Não</Button>
                       </Layout>
                   </View>
               </ProgressStep>
@@ -115,8 +115,8 @@ class Classification extends React.Component {
                   <View style={{ alignItems: 'center' }}>
                   <Text>Você teve é positivo para o covid-19?</Text>
                       <Layout style={styles.containerButtons}> 
-                        <Button status='danger' style={styles.button} onPress={() => this.setState({ yourCaseConfirmed: true })}>Sim</Button>
-                        <Button status='success' style={styles.button} onPress={() => this.setState({ yourCaseConfirmed: false })}>Não</Button>
+                        <Button status='danger' style={styles.button} onPress={() => this.setState({ yourCaseConfirmed: true })} appearance={ selectAppearance(this.state.yourCaseConfirmed) }>Sim</Button>
+                        <Button status='success' style={styles.button} onPress={() => this.setState({ yourCaseConfirmed: false })} appearance={ selectAppearance(!this.state.yourCaseConfirmed) }>Não</Button>
                       </Layout>
                   </View>
               </ProgressStep>
@@ -124,8 +124,8 @@ class Classification extends React.Component {
                   <View style={{ alignItems: 'center' }}>
                       <Text>Esteve em algum outro pais nos ultimos 14 dias?</Text>
                       <Layout style={styles.containerButtons}> 
-                        <Button status='danger' style={styles.button} onPress={() => this.setState({ casesConfirmed: true })}>Sim</Button>
-                        <Button status='success' style={styles.button} onPress={() => this.setState({ casesConfirmed: false })}>Não</Button>
+                        <Button status='danger' style={styles.button} onPress={() => this.setState({ casesConfirmed: true })} appearance={ selectAppearance(this.state.casesConfirmed) }>Sim</Button>
+                        <Button status='success' style={styles.button} onPress={() => this.setState({ casesConfirmed: false })} appearance={ selectAppearance(!this.state.casesConfirmed) }>Não</Button>
                         {/* <Text>{JSON.stringify(this.state)}</Text>
                         <Text>{JSON.stringify(this.data)}</Text> */}
                       </Layout>

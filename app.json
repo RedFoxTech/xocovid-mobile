@@ -28,7 +28,13 @@
       "supportsTablet": true,
       "bundleIdentifier": "ios",
       "publishBundlePath": "ios/tab-navigation-template/Supporting/shell-app.bundle",
-      "publishManifestPath": "ios/tab-navigation-template/Supporting/shell-app-manifest.json"
+      "publishManifestPath": "ios/tab-navigation-template/Supporting/shell-app-manifest.json",
+      "infoPlist": {
+        "UIBackgroundModes": [
+          "location",
+          "fetch"
+        ]
+      }
     },
     "isDetached": true,
     "detach": {
