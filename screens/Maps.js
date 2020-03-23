@@ -10,6 +10,8 @@ import { findPoints } from './../services/points'
 import { findLocation } from './../services/geolocation'
 import { updateOrCreateUserStatus } from './../services/userStatus'
 import { showMessage, hideMessage } from 'react-native-flash-message';
+import Pages from '../constants/Pages';
+import ErrorMessages from '../constants/ErrorMessages';
 
 class Maps extends React.Component {
   state = {

@@ -9,18 +9,15 @@ import axios from '../services/axios';
 import Input from '../components/Input';
 import ErrorMessages from '../constants/ErrorMessages';
 import { loginUser } from '../services/user';
-import { saveToken, getToken } from '../services/authenticate';
+import { saveToken, tokenExists } from '../services/authenticate';
+import Pages from '../constants/Pages';
 
 const screenWidth = Dimensions.get('screen').width - 20;
 
 const Login = ({ navigation }) => {
-  getToken().then(data => data ? navigation.navigate('Maps') : null)
-  // getToken().then(console.log)
   const authenticateUser = ({ token }) => {
-    console.log('token', token);
     saveToken(token);
   }
-
   const handleSubmit = data => {
     loginUser(data)
       .then(showMessage({
@@ -28,7 +25,7 @@ const Login = ({ navigation }) => {
         type: "info",
       }))
       .then(({ data }) => authenticateUser(data))
-      .then(() => navigation.navigate('Maps'))
+      .then(() => navigation.navigate(Pages.MAPS))
       .catch((err) => {        
         showMessage({
           type: 'danger',
@@ -36,7 +33,6 @@ const Login = ({ navigation }) => {
         })
       })
   }
-
   const validationSchema = Yup.object().shape({
     email: Yup.string()
       .email(ErrorMessages.email)
@@ -44,6 +40,10 @@ const Login = ({ navigation }) => {
     password: Yup.string()
       .required(ErrorMessages.required)
   })
+
+  useEffect(() => {
+    tokenExists().then(navigation.navigate(Pages.MAPS))
+  }, [tokenExists])
 
   return (
     <Layout style={styles.container}>
@@ -62,29 +62,27 @@ const Login = ({ navigation }) => {
             <>
               <Input
                 name="email"
-                style={styles.input}
-                labelStyle={styles.inputLabel}
                 label='Email'
-                onChangeText={handleChange('email')}
-                onBlur={handleBlur('email')}
-                caption={touched.email && errors.email}
+                onChangeText={handleChange}
+                onBlur={handleBlur}
+                touched={touched}
+                errors={errors}
                 placeholder='Digite o seu email'
                 type="email"
                 value={email}
               />
               <Input
                 name="password"
-                style={styles.input}
-                labelStyle={styles.inputLabel}
                 label='Senha'
                 type="password"
-                onChangeText={handleChange('password')}
-                onBlur={handleBlur('password')}
-                caption={touched.password && errors.password}
+                onChangeText={handleChange}
+                onBlur={handleBlur}
+                touched={touched}
+                errors={errors}
                 placeholder='Digite a sua senha'
                 value={password}
               />
-              <Text style={styles.forgetPassword}> Esqueci minha senha! </Text>
+              <Text style={styles.forgetPassword} onPress={() => navigation.navigate(Pages.FORGOT_PASSWORD)}> Esqueci minha senha! </Text>
               <Button style={styles.loginBtn} onPress={handleSubmit}> ENTRAR </Button>
             </>
           )
@@ -92,7 +90,7 @@ const Login = ({ navigation }) => {
       </Formik>
       <TouchableOpacity
         style={styles.containerRegister}
-        onPress={() => navigation.navigate('Register')}
+        onPress={() => navigation.navigate(Pages.REGISTER)}
       >
         <Text>
           Não tem conta?
@@ -118,7 +116,7 @@ const Login = ({ navigation }) => {
   );
 }
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
@@ -149,12 +147,6 @@ const styles = StyleSheet.create({
     marginTop: 40,
     marginBottom: 20,
     color: '#74848B'
-  },
-  input: {
-    backgroundColor: '#ECEFF1',
-  },
-  inputLabel: {
-    color: '#414A4E'
   },
   forgetPassword: {
     textAlign: 'left',

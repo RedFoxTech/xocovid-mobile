@@ -4,9 +4,10 @@ import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import TestScreen from '../screens/TestScreen'
 import LinksScreen from '../screens/LinksScreen';
+import Pages from '../constants/Pages';
 
 const BottomTab = createBottomTabNavigator();
-const INITIAL_ROUTE_NAME = 'Home';
+const INITIAL_ROUTE_NAME = Pages.HOME;
 
 export default function BottomTabNavigator({ navigation, route }) {
   // Set the header title on the parent stack navigator depending on the
@@ -17,7 +18,7 @@ export default function BottomTabNavigator({ navigation, route }) {
   return (
     <BottomTab.Navigator initialRouteName={INITIAL_ROUTE_NAME}>
       <BottomTab.Screen
-        name="Home"
+        name={Pages.HOME}
         component={HomeScreen}
         options={{
           title: 'Get Started',
@@ -48,7 +49,7 @@ function getHeaderTitle(route) {
   const routeName = route.state?.routes[route.state.index]?.name ?? INITIAL_ROUTE_NAME;
 
   switch (routeName) {
-    case 'Home':
+    case Pages.HOME:
       return 'How to get started';
     case 'Links':
       return 'Links to learn more';

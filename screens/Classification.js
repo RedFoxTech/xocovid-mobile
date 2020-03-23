@@ -15,6 +15,7 @@ import {
 } from '@ui-kitten/components'
 
 import ModalGuideLine from './../components/Modal'
+import Pages from '../constants/Pages';
 
 const buttonTextStyle = {
   color: '#393939'

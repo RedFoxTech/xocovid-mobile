@@ -9,6 +9,7 @@ import ErrorMessages from '../constants/ErrorMessages';
 // import Alert from '../components/Alert';
 
 import { createUser } from './../services/user'
+import Pages from '../constants/Pages';
 
 const screenWidth = Dimensions.get('screen').width - 20;
 
@@ -60,7 +61,7 @@ const Register = ({ navigation }) => {
       'Cadastrado',
       'Perfil cadastrado com sucesso!',
       [
-        {text: 'OK', onPress: () => navigation.navigate('Home')},
+        {text: 'OK', onPress: () => navigation.navigate(Pages.HOME)},
     ]))
     .catch(() => Alert.alert( 'Ocorreu um erro', 'Verifique os dados ou tente mais tarde'))
     
@@ -82,47 +83,55 @@ const Register = ({ navigation }) => {
               {/* <Text>{JSON.stringify(errors)}</Text>
               <Text>{JSON.stringify(touched)}</Text> */}
                 <Input
+                  name="name"
                   style={styles.input}
                   labelStyle={styles.inputLabel}
                   label="Nome completo"
                   placeholder="Digite seu nome completo"
-                  onChangeText={handleChange('name')}
+                  onChangeText={handleChange}
                   value={name}
-                  onBlur={handleBlur('name')}
-                  caption={touched.name && errors.name}
+                  onBlur={handleBlur}
+                  touched={touched}
+                  errors={errors}
                 />
                 <Input
+                  name="email"
                   style={styles.input}
                   labelStyle={styles.inputLabel}
                   label='Email'
-                  onChangeText={handleChange('email')}
+                  onChangeText={handleChange}
                   placeholder='Digite o seu email'
                   type="email"
                   value={email}
-                  onBlur={handleBlur('email')}
-                  caption={touched.email && errors.email}
+                  onBlur={handleBlur}
+                  touched={touched}
+                  errors={errors}
                 />
                 <Input
+                  name="age"
                   style={styles.input}
                   labelStyle={styles.inputLabel}
                   label="Idade"
                   placeholder="Digite sua idade"
-                  onChangeText={handleChange('age')}
+                  onChangeText={handleChange}
                   value={age}
-                  onBlur={handleBlur('age')}
-                  caption={formatNumberMessage(touched.age && errors.age)}
+                  onBlur={handleBlur}
+                  touched={touched}
+                  errors={errors}
                   type="number"
                 />
                 <Input
+                  name="password"
                   style={styles.input}
                   labelStyle={styles.inputLabel}
                   label='Senha'
                   type="password"
-                  onChangeText={handleChange('password')}
+                  onChangeText={handleChange}
                   placeholder='Digite a sua senha'
                   value={password}
-                  onBlur={handleBlur('password')}
-                  caption={touched.password && errors.password}
+                  onBlur={handleBlur}
+                  touched={touched}
+                  errors={errors}
                 />
                 <Button style={styles.loginBtn} onPress={handleSubmit}> CADASTRAR </Button>
               </>
