@@ -38,7 +38,7 @@ export default function SplashScreen({navigation}) {
           </TouchableOpacity>
         </View>
 
-        <Button status='info' onPress={() => navigation.navigate('Maps') }>Acessar</Button>
+        <Button status='info' onPress={() => navigation.navigate('Home') }>Acessar</Button>
 
       </ScrollView>
 
