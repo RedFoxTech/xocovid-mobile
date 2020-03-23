@@ -90,7 +90,7 @@ class Maps extends React.Component {
                 appearance="ghost"
                 status='danger'
                 style={styles.actionButton}
-                onPress={() => this.navigation.navigate('Classification')}
+                onPress={() => this.navigation.navigate(Pages.CLASSIFICATION)}
               >Mal</Button>
             </Layout>
           </Layout>
