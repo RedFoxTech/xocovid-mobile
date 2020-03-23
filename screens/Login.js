@@ -10,6 +10,7 @@ import Input from '../components/Input';
 import ErrorMessages from '../constants/ErrorMessages';
 import { loginUser } from '../services/user';
 import { saveToken, tokenExists } from '../services/authenticate';
+import Pages from '../constants/Pages';
 
 const screenWidth = Dimensions.get('screen').width - 20;
 
@@ -24,7 +25,7 @@ const Login = ({ navigation }) => {
         type: "info",
       }))
       .then(({ data }) => authenticateUser(data))
-      .then(() => navigation.navigate('Maps'))
+      .then(() => navigation.navigate(Pages.MAPS))
       .catch((err) => {        
         showMessage({
           type: 'danger',
@@ -41,7 +42,7 @@ const Login = ({ navigation }) => {
   })
 
   useEffect(() => {
-    tokenExists().then(navigation.navigate('Maps'))
+    tokenExists().then(navigation.navigate(Pages.MAPS))
   }, [tokenExists])
 
   return (
@@ -83,7 +84,7 @@ const Login = ({ navigation }) => {
                 placeholder='Digite a sua senha'
                 value={password}
               />
-              <Text style={styles.forgetPassword}> Esqueci minha senha! </Text>
+              <Text style={styles.forgetPassword} onPress={() => navigation.navigate(Pages.FORGOT_PASSWORD)}> Esqueci minha senha! </Text>
               <Button style={styles.loginBtn} onPress={handleSubmit}> ENTRAR </Button>
             </>
           )
@@ -91,7 +92,7 @@ const Login = ({ navigation }) => {
       </Formik>
       <TouchableOpacity
         style={styles.containerRegister}
-        onPress={() => navigation.navigate('Register')}
+        onPress={() => navigation.navigate(Pages.REGISTER)}
       >
         <Text>
           Não tem conta?

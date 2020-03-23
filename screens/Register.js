@@ -9,6 +9,7 @@ import ErrorMessages from '../constants/ErrorMessages';
 // import Alert from '../components/Alert';
 
 import { createUser } from './../services/user'
+import Pages from '../constants/Pages';
 
 const screenWidth = Dimensions.get('screen').width - 20;
 
@@ -60,7 +61,7 @@ const Register = ({ navigation }) => {
       'Cadastrado',
       'Perfil cadastrado com sucesso!',
       [
-        {text: 'OK', onPress: () => navigation.navigate('Home')},
+        {text: 'OK', onPress: () => navigation.navigate(Pages.HOME)},
     ]))
     .catch(() => Alert.alert( 'Ocorreu um erro', 'Verifique os dados ou tente mais tarde'))
     

@@ -25,6 +25,8 @@ import { mapping, light as lightTheme } from '@eva-design/eva';
 
 import * as BackgroundFetch from 'expo-background-fetch';
 import * as TaskManager from 'expo-task-manager';
+import ForgotPassword from './screens/ForgotPassword';
+import Pages from './constants/Pages';
 
 TaskManager.defineTask('testedaporratoda', () => {
   try {
@@ -106,13 +108,14 @@ export default function App(props) {
       <ApplicationProvider mapping={mapping} theme={lightTheme}>
         <IconRegistry icons={EvaIconsPack} />
         {/* <Login/> */}
-          <NavigationContainer initialRouteName="Start">
+          <NavigationContainer initialRouteName={Pages.HOME}>
             <Stack.Navigator>
-              <Stack.Screen name="Start" component={Splash} />
-              <Stack.Screen name="Home" component={Login} />
-              <Stack.Screen name="Register" component={Register} />
-              <Stack.Screen name="Maps" component={Maps} />
-              <Stack.Screen name="Classification" component={Classification} />
+              {/* <Stack.Screen name="Start" component={Splash} /> */}
+              <Stack.Screen name={Pages.HOME} component={Login} />
+              <Stack.Screen name={Pages.FORGOT_PASSWORD} component={ForgotPassword} />
+              <Stack.Screen name={Pages.REGISTER} component={Register} />
+              <Stack.Screen name={Pages.MAPS} component={Maps} />
+              <Stack.Screen name={Pages.CLASSIFICATION} component={Classification} />
             </Stack.Navigator>
           </NavigationContainer>
           <FlashMessage position="top" />

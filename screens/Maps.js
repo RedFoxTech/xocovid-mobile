@@ -10,6 +10,7 @@ import { findPoints } from './../services/points'
 import { findLocation } from './../services/geolocation'
 import { updateOrCreateUserStatus } from './../services/userStatus'
 import { showMessage, hideMessage } from 'react-native-flash-message';
+import Pages from '../constants/Pages';
 
 class Maps extends React.Component {
     state = {
@@ -57,7 +58,7 @@ class Maps extends React.Component {
               </Layout>
               <Layout style={styles.itemLayout}>
                       <Button style={styles.buttonClassification} status='success' appearance='outline' onPress={this.userStatus}>Bem</Button>
-                      <Button style={styles.buttonClassification} status='danger' appearance='outline' onPress={() => this.navigation.navigate('Classification')} >Mal</Button>
+                      <Button style={styles.buttonClassification} status='danger' appearance='outline' onPress={() => this.navigation.navigate(Pages.CLASSIFICATION)} >Mal</Button>
               </Layout>
             </Layout>
               { this.state.location ? <MapView style={styles.mapStyle}  

@@ -3,6 +3,7 @@ import { Image, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react
 import { Layout, Button } from '@ui-kitten/components';
 import { ScrollView } from 'react-native-gesture-handler';
 import * as WebBrowser from 'expo-web-browser';
+import Pages from '../constants/Pages';
 
 // import { MonoText } from '../components/StyledText';
 
@@ -38,7 +39,7 @@ export default function SplashScreen({navigation}) {
           </TouchableOpacity>
         </View>
 
-        <Button status='info' onPress={() => navigation.navigate('Home') }>Acessar</Button>
+        <Button status='info' onPress={() => navigation.navigate(Pages.HOME) }>Acessar</Button>
 
       </ScrollView>
 

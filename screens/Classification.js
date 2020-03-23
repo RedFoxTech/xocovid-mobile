@@ -15,6 +15,7 @@ import {
 } from '@ui-kitten/components'
 
 import ModalGuideLine from './../components/Modal'
+import Pages from '../constants/Pages';
 
 const buttonTextStyle = {
   color: '#393939'
@@ -86,9 +87,9 @@ class Classification extends React.Component {
                         })
                       }
                     </Layout>
-                    <Layout style={styles.buttonContainer}>
+                    {/* <Layout style={styles.buttonContainer}>
                       <Button style={styles.buttonBottom} appearance='filled'>Confirmar</Button>
-                    </Layout>
+                    </Layout> */}
                   </Layout>
               </ProgressStep>
               <ProgressStep label="" nextBtnTextStyle={buttonTextStyle}  nextBtnText='Confirmar' previousBtnText='Voltar' previousBtnTextStyle={buttonTextStyle}>
@@ -129,7 +130,7 @@ class Classification extends React.Component {
                         {/* <Text>{JSON.stringify(this.state)}</Text>
                         <Text>{JSON.stringify(this.data)}</Text> */}
                       </Layout>
-                      <ModalGuideLine nav={() => this.props.navigation.navigate('Maps')} visible={this.state.visibleModal}/>
+                      <ModalGuideLine nav={() => this.props.navigation.navigate(Pages.MAPS)} visible={this.state.visibleModal}/>
                       
                   </View>
               </ProgressStep>
