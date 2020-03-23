@@ -83,46 +83,50 @@ const Register = ({ navigation }) => {
               {/* <Text>{JSON.stringify(errors)}</Text>
               <Text>{JSON.stringify(touched)}</Text> */}
                 <Input
+                  name="name"
                   style={styles.input}
                   labelStyle={styles.inputLabel}
                   label="Nome completo"
                   placeholder="Digite seu nome completo"
-                  onChangeText={handleChange('name')}
+                  onChangeText={handleChange}
                   value={name}
-                  onBlur={handleBlur('name')}
+                  onBlur={handleBlur}
                   caption={touched.name && errors.name}
                 />
                 <Input
+                  name="email"
                   style={styles.input}
                   labelStyle={styles.inputLabel}
                   label='Email'
-                  onChangeText={handleChange('email')}
+                  onChangeText={handleChange}
                   placeholder='Digite o seu email'
                   type="email"
                   value={email}
-                  onBlur={handleBlur('email')}
+                  onBlur={handleBlur}
                   caption={touched.email && errors.email}
                 />
                 <Input
+                  name="age"
                   style={styles.input}
                   labelStyle={styles.inputLabel}
                   label="Idade"
                   placeholder="Digite sua idade"
-                  onChangeText={handleChange('age')}
+                  onChangeText={handleChange}
                   value={age}
-                  onBlur={handleBlur('age')}
+                  onBlur={handleBlur}
                   caption={formatNumberMessage(touched.age && errors.age)}
                   type="number"
                 />
                 <Input
+                  name="password"
                   style={styles.input}
                   labelStyle={styles.inputLabel}
                   label='Senha'
                   type="password"
-                  onChangeText={handleChange('password')}
+                  onChangeText={handleChange}
                   placeholder='Digite a sua senha'
                   value={password}
-                  onBlur={handleBlur('password')}
+                  onBlur={handleBlur}
                   caption={touched.password && errors.password}
                 />
                 <Button style={styles.loginBtn} onPress={handleSubmit}> CADASTRAR </Button>

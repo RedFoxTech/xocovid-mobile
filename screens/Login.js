@@ -65,8 +65,8 @@ const Login = ({ navigation }) => {
                 style={styles.input}
                 labelStyle={styles.inputLabel}
                 label='Email'
-                onChangeText={handleChange('email')}
-                onBlur={handleBlur('email')}
+                onChangeText={handleChange}
+                onBlur={handleBlur}
                 caption={touched.email && errors.email}
                 placeholder='Digite o seu email'
                 type="email"
@@ -78,8 +78,8 @@ const Login = ({ navigation }) => {
                 labelStyle={styles.inputLabel}
                 label='Senha'
                 type="password"
-                onChangeText={handleChange('password')}
-                onBlur={handleBlur('password')}
+                onChangeText={handleChange}
+                onBlur={handleBlur}
                 caption={touched.password && errors.password}
                 placeholder='Digite a sua senha'
                 value={password}
@@ -118,7 +118,7 @@ const Login = ({ navigation }) => {
   );
 }
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
