@@ -10,4 +10,4 @@ export const loginUser = (user) => {
 
 export const emailToRecoveryPassword = (email) => axios.post(`/user/recovery-password/${email}`);
 
-export const changePassword = data => axios.put(`/user/recovery-password/${data.email}`, data)
+export const changePassword = (email, data) => axios.put(`/user/recovery-password/${email}`, data)

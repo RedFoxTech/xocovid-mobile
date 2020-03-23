@@ -38,8 +38,8 @@ const ForgotPassword = ({ navigation }) => {
         message: ErrorMessages.tryAgain
       }))
   }
-  const handleSubmitChangePassword = (data) => {
-    changePassword(data)
+  const handleSubmitChangePassword = ({ confirmPassword, ...data }) => {
+    changePassword(email, data)
       .then(() => {
         showMessage({
           type: 'success',
