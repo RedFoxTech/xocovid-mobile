@@ -30,7 +30,7 @@ TaskManager.defineTask('testedaporratoda', () => {
   try {
     fetch('https://d8306412.ngrok.io/task')
     // const receivedNewData = // do your background fetch here
-    alert('background featch running');
+    // alert('background featch running');
     const receivedNewData = true
     console.log('cron sucesso')
     return receivedNewData ? BackgroundFetch.Result.NewData : BackgroundFetch.Result.NoData;
