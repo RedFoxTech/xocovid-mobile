@@ -112,7 +112,7 @@ export default function App(props) {
             <Stack.Navigator>
               <Stack.Screen name="Start" component={Splash} options={{ headerShown: false }} />
               <Stack.Screen name="Home" component={Login} />
-              <Stack.Screen name="Register" component={Register} />
+              <Stack.Screen name="Cadastro" component={Register} />
               <Stack.Screen name="Maps" component={Maps} />
               <Stack.Screen name="Classification" component={Classification} options={{ title: 'Sintomas' }} />
             </Stack.Navigator>
