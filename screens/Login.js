@@ -62,8 +62,6 @@ const Login = ({ navigation }) => {
             <>
               <Input
                 name="email"
-                style={styles.input}
-                labelStyle={styles.inputLabel}
                 label='Email'
                 onChangeText={handleChange}
                 onBlur={handleBlur}
@@ -74,8 +72,6 @@ const Login = ({ navigation }) => {
               />
               <Input
                 name="password"
-                style={styles.input}
-                labelStyle={styles.inputLabel}
                 label='Senha'
                 type="password"
                 onChangeText={handleChange}
@@ -149,12 +145,6 @@ export const styles = StyleSheet.create({
     marginTop: 40,
     marginBottom: 20,
     color: '#74848B'
-  },
-  input: {
-    backgroundColor: '#ECEFF1',
-  },
-  inputLabel: {
-    color: '#414A4E'
   },
   forgetPassword: {
     textAlign: 'left',
