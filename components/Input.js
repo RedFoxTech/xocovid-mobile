@@ -11,18 +11,23 @@ const styles = StyleSheet.create({
   },
 });
 
-const Input = ({ name, onChangeText, onBlur, style, labelStyle, ...props }) => (
-  <>
-    <KittenInput
-      style={{ ...styles.input, ...style }}
-      labelStyle={{ ...styles.inputLabel, ...labelStyle }}
-      status={props.caption && 'danger'}
-      secureTextEntry={props.type === 'password'}
-      onChangeText={onChangeText(name)}
-      onBlur={onBlur(name)}
-      {...props}
-    />
-  </>
-)
+const Input = ({ name = '', onChangeText = () => null, onBlur = () => null, style = {}, labelStyle = {}, touched = {}, errors = {}, caption = '', ...props }) => {
+  caption = caption || touched[name] && errors[name];
+
+  return (
+    <>
+      <KittenInput
+        caption={caption}
+        style={{ ...styles.input, ...style }}
+        labelStyle={{ ...styles.inputLabel, ...labelStyle }}
+        status={caption && 'danger'}
+        secureTextEntry={props.type === 'password'}
+        onChangeText={onChangeText(name)}
+        onBlur={onBlur(name)}
+        {...props}
+      />
+    </>
+  );
+};
 
 export default Input;

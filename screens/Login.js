@@ -65,7 +65,8 @@ const Login = ({ navigation }) => {
                 label='Email'
                 onChangeText={handleChange}
                 onBlur={handleBlur}
-                caption={touched.email && errors.email}
+                touched={touched}
+                errors={errors}
                 placeholder='Digite o seu email'
                 type="email"
                 value={email}
@@ -76,7 +77,8 @@ const Login = ({ navigation }) => {
                 type="password"
                 onChangeText={handleChange}
                 onBlur={handleBlur}
-                caption={touched.password && errors.password}
+                touched={touched}
+                errors={errors}
                 placeholder='Digite a sua senha'
                 value={password}
               />

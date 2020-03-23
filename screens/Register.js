@@ -91,7 +91,8 @@ const Register = ({ navigation }) => {
                   onChangeText={handleChange}
                   value={name}
                   onBlur={handleBlur}
-                  caption={touched.name && errors.name}
+                  touched={touched}
+                  errors={errors}
                 />
                 <Input
                   name="email"
@@ -103,7 +104,8 @@ const Register = ({ navigation }) => {
                   type="email"
                   value={email}
                   onBlur={handleBlur}
-                  caption={touched.email && errors.email}
+                  touched={touched}
+                  errors={errors}
                 />
                 <Input
                   name="age"
@@ -114,7 +116,8 @@ const Register = ({ navigation }) => {
                   onChangeText={handleChange}
                   value={age}
                   onBlur={handleBlur}
-                  caption={formatNumberMessage(touched.age && errors.age)}
+                  touched={touched}
+                  errors={errors}
                   type="number"
                 />
                 <Input
@@ -127,7 +130,8 @@ const Register = ({ navigation }) => {
                   placeholder='Digite a sua senha'
                   value={password}
                   onBlur={handleBlur}
-                  caption={touched.password && errors.password}
+                  touched={touched}
+                  errors={errors}
                 />
                 <Button style={styles.loginBtn} onPress={handleSubmit}> CADASTRAR </Button>
               </>
