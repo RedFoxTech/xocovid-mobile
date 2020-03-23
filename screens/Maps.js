@@ -3,13 +3,13 @@ import { Layout, Text, Button, Input } from '@ui-kitten/components';
 import { StyleSheet, Dimensions, View } from 'react-native';
 import React from 'react';
 
-import MapView, { Polygon, Marker } from 'react-native-maps'
+import MapView, { Marker } from 'react-native-maps'
 
 import { findPoints } from './../services/points'
 
 import { findLocation } from './../services/geolocation'
 import { updateOrCreateUserStatus } from './../services/userStatus'
-import { showMessage, hideMessage } from 'react-native-flash-message';
+import { showMessage } from 'react-native-flash-message';
 import Pages from '../constants/Pages';
 import ErrorMessages from '../constants/ErrorMessages';
 
@@ -99,8 +99,8 @@ class Maps extends React.Component {
             {
               latitude: this.state.location.coords.latitude,
               longitude: this.state.location.coords.longitude,
-              latitudeDelta: 0.4,
-              longitudeDelta: 0.3,
+              latitudeDelta: 0.01,
+              longitudeDelta: 0.01,
             }
         } >
           {this.state.location ? [
@@ -117,7 +117,7 @@ class Maps extends React.Component {
                   borderWidth: 5,
                   borderColor: '#69bef055',
                   backgroundColor: '#026ba8',
-                  padding: 3
+                  padding: 5
                  }
               } />
             </Marker>,
@@ -134,7 +134,7 @@ class Maps extends React.Component {
                   borderWidth: 5,
                   borderColor: '#ffd70055',
                   backgroundColor: '#F9AC26',
-                  padding: 3
+                  padding: 5
                  }
               } /> 
             </Marker>)] : null}
@@ -147,7 +147,7 @@ class Maps extends React.Component {
           </Layout>
           <View style={{ width: 1, height: '100%', backgroundColor: '#D3D8DC', marginLeft: 12, marginRight: 16 }} />
           <Layout>
-            <Text>Casos próximos a você</Text>
+            <Text>Casos suspeitos próximos a você</Text>
           </Layout>
         </Layout>
       </Layout>

@@ -99,7 +99,7 @@ const Login = ({ navigation }) => {
           CADASTRE-SE
         </Text>
       </TouchableOpacity>
-      <Text style={styles.orEnter}>
+      {/* <Text style={styles.orEnter}>
         ou entre com
       </Text>
       <View style={styles.socialMediaContainer}>
@@ -111,7 +111,7 @@ const Login = ({ navigation }) => {
           <Text style={styles.fBtnText}> F </Text>
           <Text style={styles.fBtnText}> Facebook </Text>
         </Button>
-      </View>
+      </View> */}
     </Layout>
   );
 }

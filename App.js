@@ -7,6 +7,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 import FlashMessage from 'react-native-flash-message';
 
+import * as Location from 'expo-location';
+
 import 'react-native-gesture-handler';
 
 import Splash from './screens/SplashScreen'
@@ -28,20 +30,6 @@ import * as TaskManager from 'expo-task-manager';
 import ForgotPassword from './screens/ForgotPassword';
 import Pages from './constants/Pages';
 
-TaskManager.defineTask('testedaporratoda', () => {
-  try {
-    fetch('https://d8306412.ngrok.io/task')
-    // const receivedNewData = // do your background fetch here
-    // alert('background featch running');
-    const receivedNewData = true
-    console.log('cron sucesso')
-    return receivedNewData ? BackgroundFetch.Result.NewData : BackgroundFetch.Result.NoData;
-  } catch (error) {
-    console.log('error cron', error)
-    return BackgroundFetch.Result.Failed;
-  }
-});
-
 const Stack = createStackNavigator();
 
 // const HomeScreen = () => (
@@ -53,13 +41,20 @@ const Stack = createStackNavigator();
 
 
 // firebase.analytics();
+const onPress = async () => {
+  const { status } = await Location.requestPermissionsAsync();
+  if (status === 'granted') {
+    await Location.startLocationUpdatesAsync('teste', {
+      accuracy: Location.Accuracy.Balanced,
+    });
+  }
+};
 
 export default function App(props) {
-
-  BackgroundFetch.registerTaskAsync('testedaporratoda', {
-    minimumInterval: 60
-  })
-
+  
+  // setInterval(() => console.log('montou'), 1000)
+  onPress()
+  
   const [isLoadingComplete, setLoadingComplete] = React.useState(false);
   const [initialNavigationState, setInitialNavigationState] = React.useState();
   const containerRef = React.useRef();
@@ -111,7 +106,7 @@ export default function App(props) {
           <NavigationContainer initialRouteName={Pages.START}>
             <Stack.Navigator>
               <Stack.Screen name={Pages.START} component={Splash} />
-              <Stack.Screen name={Pages.HOME} component={Login} />
+              <Stack.Screen name={Pages.HOME} component={Login} /> 
               <Stack.Screen name={Pages.FORGOT_PASSWORD} component={ForgotPassword} />
               <Stack.Screen name={Pages.REGISTER} component={Register} />
               <Stack.Screen name={Pages.MAPS} component={Maps} />
@@ -135,6 +130,34 @@ export default function App(props) {
   }
 }
 
+// TaskManager.defineTask('testedaporratoda', () => {
+//   try {
+//     fetch('https://e6f8d076.ngrok.io/task')
+//     // const receivedNewData = // do your background fetch here
+//     // alert('background featch running');
+//     const receivedNewData = true
+//     console.log('cron sucesso')
+//     return receivedNewData ? BackgroundFetch.Result.NewData : BackgroundFetch.Result.NoData;
+//   } catch (error) {
+//     console.log('error cron', error)
+//     return BackgroundFetch.Result.Failed;
+//   }
+// });
+
+// BackgroundFetch.registerTaskAsync('testedaporratoda', {
+//   minimumInterval: 10
+// })
+TaskManager.defineTask('teste', ({ data, error }) => {
+  console.log('task teste');
+  if (error) {
+    // Error occurred - check `error.message` for more details.
+    return;
+  }
+  if (data) {
+    const { locations } = data;
+    // do something with the locations captured in the background
+  }
+});
 const styles = StyleSheet.create({
   container: {
     flex: 1,
