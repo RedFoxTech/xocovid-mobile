@@ -108,13 +108,14 @@ export default function App(props) {
       <ApplicationProvider mapping={mapping} theme={lightTheme}>
         <IconRegistry icons={EvaIconsPack} />
         {/* <Login/> */}
-          <NavigationContainer initialRouteName={Pages.HOME}>
+          <NavigationContainer initialRouteName={Pages.START}>
             <Stack.Navigator>
-              <Stack.Screen name="Start" component={Splash} options={{ headerShown: false }} />
-              <Stack.Screen name="Home" component={Login} />
-              <Stack.Screen name="Register" component={Register} />
-              <Stack.Screen name="Maps" component={Maps} />
-              <Stack.Screen name="Classification" component={Classification} options={{ title: 'Sintomas' }} />
+              <Stack.Screen name={Pages.START} component={Splash} />
+              <Stack.Screen name={Pages.HOME} component={Login} />
+              <Stack.Screen name={Pages.FORGOT_PASSWORD} component={ForgotPassword} />
+              <Stack.Screen name={Pages.REGISTER} component={Register} />
+              <Stack.Screen name={Pages.MAPS} component={Maps} />
+              <Stack.Screen name={Pages.CLASSIFICATION} component={Classification} />
             </Stack.Navigator>
           </NavigationContainer>
           <FlashMessage position="top" />

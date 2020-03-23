@@ -175,7 +175,7 @@ class Classification extends React.Component {
                   {/* <Text>{JSON.stringify(this.state)}</Text>
                         <Text>{JSON.stringify(this.data)}</Text> */}
                 </Layout>
-                <ModalGuideLine nav={() => this.props.navigation.navigate('Maps')} visible={this.state.visibleModal} />
+                <ModalGuideLine nav={() => this.props.navigation.navigate(Pages.MAPS)} visible={this.state.visibleModal} />
 
               </View>
             </Layout>

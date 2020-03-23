@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image } from 'react-native';
 import { Layout, Button } from '@ui-kitten/components';
+import Pages from '../constants/Pages';
 
 export default class SplashScreen extends React.Component {
 
@@ -51,7 +52,7 @@ export default class SplashScreen extends React.Component {
           <View style={{ backgroundColor: '#FF0059', height: '100%', width: `${100 / steps.length}%`, left: `${(100 / steps.length) * step}%`, borderRadius: 4 }} />
         </View>
         <View style={{ flexBasis: 'auto', flexGrow: 1 }} />
-        <Button style={{ width: '100%', marginBottom: 48 }} onPress={() => step < steps.length - 1 ? this.setState({step: step + 1}) : steps[step].navigation ? this.navigation.navigate(steps[step].navigation) : null}>
+        <Button style={{ width: '100%', marginBottom: 48 }} onPress={() => step < steps.length - 1 ? this.setState({step: step + 1}) : this.navigation.navigate(Pages.HOME)}>
           PRÓXIMO
         </Button>
       </Layout >

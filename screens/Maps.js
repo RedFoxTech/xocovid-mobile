@@ -11,6 +11,7 @@ import { findLocation } from './../services/geolocation'
 import { updateOrCreateUserStatus } from './../services/userStatus'
 import { showMessage, hideMessage } from 'react-native-flash-message';
 import Pages from '../constants/Pages';
+import ErrorMessages from '../constants/ErrorMessages';
 
 class Maps extends React.Component {
   state = {
@@ -89,7 +90,7 @@ class Maps extends React.Component {
                 appearance="ghost"
                 status='danger'
                 style={styles.actionButton}
-                onPress={() => this.navigation.navigate('Classification')}
+                onPress={() => this.navigation.navigate(Pages.CLASSIFICATION)}
               >Mal</Button>
             </Layout>
           </Layout>
