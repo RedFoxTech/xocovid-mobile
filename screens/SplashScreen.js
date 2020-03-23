@@ -3,6 +3,8 @@ import { StyleSheet, Text, View, Image } from 'react-native';
 import { Layout, Button } from '@ui-kitten/components';
 import Pages from '../constants/Pages';
 
+// import img from './../assets/images/'
+
 export default class SplashScreen extends React.Component {
 
   state = {
@@ -21,33 +23,42 @@ export default class SplashScreen extends React.Component {
     {
       title: 'Bem vindo ao',
       brand: 'XOCOVID',
-      text: 'O aplicativo para você visualizar a situação do coronavírus na sua cidade'
+      text: 'O aplicativo para você visualizar a situação do coronavírus na sua cidade',
+      image: require('../assets/images/logo.png')
     },
     {
       title: 'Mapa',
-      text: 'Temos um mapa para você visualizar se existem pessoas próximas a você com suspeita e casos positivos do Covid-19'
+      text: 'Temos um mapa para você visualizar se existem pessoas próximas a você com suspeita e casos positivos do Covid-19',
+      image: require('../assets/images/map.png')
     },
     {
       title: 'Cadastro',
-      text: 'Para outras funções, você pode se cadastrar'
+      text: 'Para outras funções, você pode se cadastrar',
+      image: require('./../assets/images/man.png')
     },
     {
       title: 'Sintomas',
       text: 'E saber o seu estado de saúde. Mas atenção, ele não será um diagnóstico',
-      navigation: 'Home'
+      navigation: 'Home',
+      image: require('./../assets/images/heart.png')
     }
   ]
 
   render() {
     const { step } = this.state;
     const { steps } = this;
+
     return (
       <Layout style={styles.screenContainer}>
         <Text style={styles.title}>{steps[step].title}</Text>
         { steps[step].brand ? <Text style={styles.brand}>{steps[step].brand}</Text> : null }
         <Text style={styles.text}>{steps[step].text}</Text>
-        <View style={{ height: 211, justifyContent: 'flex-end' }}>
+        <View style={{ height: 100, justifyContent: 'flex-end' }}>
         </View>
+        <Image
+          style={{maxWidth: 250, maxHeight: 250, marginBottom: 30 }}
+          source={steps[step].image}
+        />
         <View style={{ backgroundColor: '#ECEFF1', width: 225, height: 8, borderRadius: 4 }}>
           <View style={{ backgroundColor: '#FF0059', height: '100%', width: `${100 / steps.length}%`, left: `${(100 / steps.length) * step}%`, borderRadius: 4 }} />
         </View>
