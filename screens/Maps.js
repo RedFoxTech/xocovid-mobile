@@ -95,8 +95,14 @@ class Maps extends React.Component {
             </Layout>
           </Layout>
         </View>
-
-        <MapView style={styles.mapStyle} >
+        { this.state.location ?         <MapView style={styles.mapStyle} initialRegion={
+            {
+              latitude: this.state.location.coords.latitude,
+              longitude: this.state.location.coords.longitude,
+              latitudeDelta: 0.4,
+              longitudeDelta: 0.3,
+            }
+        } >
           {this.state.location ? [
             <Marker
               key={-1}
@@ -104,17 +110,36 @@ class Maps extends React.Component {
                 latitude: this.state.location.coords.latitude,
                 longitude: this.state.location.coords.longitude
               }}
-              pinColor={'#000fff'}
-            />,
+              
+            >
+              <View style={
+                { borderRadius: 50,
+                  borderWidth: 5,
+                  borderColor: '#69bef055',
+                  backgroundColor: '#026ba8',
+                  padding: 3
+                 }
+              } />
+            </Marker>,
             ...this.state.points.map((item, i) => <Marker
               key={i}
               coordinate={{
                 latitude: item.coordinates[0],
                 longitude: item.coordinates[1]
               }}
-              pinColor={'#000000'}
-            />)] : null}
-        </MapView>
+              
+            >
+              <View style={
+                { borderRadius: 50,
+                  borderWidth: 5,
+                  borderColor: '#ffd70055',
+                  backgroundColor: '#F9AC26',
+                  padding: 3
+                 }
+              } /> 
+            </Marker>)] : null}
+        </MapView> : null }
+
         <Layout style={styles.casesContainer}>
           <Layout style={{ justifyContent: 'center', alignItems: 'center' }}>
             <Text>{this.state.points.length}</Text>
