@@ -11,6 +11,7 @@ import { findLocation } from './../services/geolocation'
 import { updateOrCreateUserStatus } from './../services/userStatus'
 import { showMessage, hideMessage } from 'react-native-flash-message';
 import Pages from '../constants/Pages';
+import ErrorMessages from '../constants/ErrorMessages';
 
 class Maps extends React.Component {
     state = {
@@ -33,7 +34,7 @@ class Maps extends React.Component {
             this.setState({ location })
           })
           .catch(err => showMessage({
-            message: 'Ocorreu um erro, por favor tente novamente',
+            message: ErrorMessages.tryAgain,
             type: 'danger'
           }))
         
