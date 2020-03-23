@@ -1,7 +1,7 @@
 export default {
-  MAPS: 'Mapa',
+  MAPS: 'Maps',
   SPLASH: 'Splash',
-  HOME: 'Login',
+  HOME: 'Home',
   FORGOT_PASSWORD: 'Esqueci minha senha',
   REGISTER: 'Cadastro',
   CLASSIFICATION: 'Formulário'

@@ -1,4 +1,4 @@
-import { Layout, Text, Button } from '@ui-kitten/components';
+import { Layout, Text, Button, Input } from '@ui-kitten/components';
 
 import { StyleSheet, Dimensions, View } from 'react-native';
 import React from 'react';
@@ -13,201 +13,157 @@ import { showMessage, hideMessage } from 'react-native-flash-message';
 import Pages from '../constants/Pages';
 
 class Maps extends React.Component {
-    state = {
-        location: false,
-        errorMessage: null,
-    }
-    navigation = null
-    points = []
-    constructor (props) {
-        super(props)
-        
-        const { navigation } = props
-        this.navigation = navigation
-        findLocation()
-          .then(location => {
-            findPoints({ ...location.coords }).then(data => {
-              this.points = data.data
-              this.forceUpdate()
-            })
-            this.setState({ location })
-          })
-          .catch(err => showMessage({
-            message: 'Ocorreu um erro, por favor tente novamente',
-            type: 'danger'
-          }))
-        
-    }
-    userStatus = () => {
+  state = {
+    location: false,
+    errorMessage: null,
+    points: []
+  }
+  navigation = null
+
+  constructor(props) {
+    super(props)
+
+    const { navigation } = props
+    this.navigation = navigation
+  }
+
+  async componentDidMount() {
+    try {
+      const location = await findLocation()
+      this.setState({ location })
+      const { data: points } = await findPoints({ ...location.coords })
+      this.setState({ points })
+    } catch (err) {
       showMessage({
-        message: 'Registrando...',
-        type: 'info'
+        message: 'Ocorreu um erro, pro favor tente novamente',
+        type: 'danger'
       })
-      updateOrCreateUserStatus({
+    }
+  }
+
+  userStatus = async () => {
+    showMessage({
+      message: 'Registrando...',
+      type: 'info'
+    })
+    try {
+      await updateOrCreateUserStatus({
         probability: 0,
         symptoms: [],
         point: [this.state.location.coords.latitude, this.state.location.coords.longitude]
-       }) 
+      })
+    } catch (err) {
+      showMessage({
+        message: 'Ocorreu um erro, pro favor tente novamente',
+        type: 'danger'
+      })
     }
-    render() {
-      return (
-          <>
-            <Layout style={styles.containerLayout}>
-              <Layout style={styles.containerTitle}>
-                  <Text>Como você está se sentindo? </Text>
-              </Layout>
-              <Layout style={styles.itemLayout}>
-                      <Button style={styles.buttonClassification} status='success' appearance='outline' onPress={this.userStatus}>Bem</Button>
-                      <Button style={styles.buttonClassification} status='danger' appearance='outline' onPress={() => this.navigation.navigate(Pages.CLASSIFICATION)} >Mal</Button>
-              </Layout>
+
+  }
+  render() {
+    return (
+      <Layout style={styles.screenContainer}>
+        <View style={{ marginTop: 32, marginHorizontal: 16 }}>
+          <Layout style={{ flexDirection: 'row', alignItems: 'center', borderRadius: 8 }}>
+            <Button appearance="ghost"></Button>
+            <View style={{ width: 1, height: '70%', backgroundColor: '#D3D8DC' }} />
+            <Input
+              status="control"
+              placeholder="Busque por..."
+              style={{ flexGrow: 1, padding: 0, marginTop: 3 }}
+              placeholderTextColor="#74848B"
+              textStyle={{ color: '#74848B' }}
+              captionStyle={{ display: 'none' }}
+            />
+          </Layout>
+          <Layout style={{ padding: 8, borderRadius: 8, marginTop: 16 }}>
+            <Text>Como você está se sentindo? </Text>
+            <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 16 }}>
+              <Button
+                appearance="ghost"
+                style={styles.actionButton}
+                status='success' onPress={this.userStatus}
+              >Bem</Button>
+              <View style={{ width: 1, height: '100%', backgroundColor: '#D3D8DC' }} />
+              <Button
+                appearance="ghost"
+                status='danger'
+                style={styles.actionButton}
+                onPress={() => this.navigation.navigate('Classification')}
+              >Mal</Button>
             </Layout>
-              { this.state.location ? <MapView style={styles.mapStyle}  
-                initialRegion={{
-                  latitude: this.state.location.coords.latitude,
-                  longitude: this.state.location.coords.longitude,
-                  latitudeDelta: 0.00922,
-                  longitudeDelta: 0.00421,
-                }}
-              >
-                <Marker
-                    coordinate={{ 
-                      latitude: this.state.location.coords.latitude,
-                      longitude: this.state.location.coords.longitude
-                    }}              
-                  >
-                  <View style={{backgroundColor: "#6294d199", padding: 10, borderRadius: 50,
-                    borderWidth: 0.5,
-                    borderColor: '#6294d1'}}>
-                      <View style={{backgroundColor: "#0060d6", padding: 7, borderRadius: 50,
-                      borderWidth: 0.5,
-                      borderColor: '#d6d7da'}} />
-                  </View>
-                  </Marker>
-                {
-                this.points.map((item, i) => <Marker
-                  key={i}
-                  coordinate={{ 
-                    latitude: item.coordinates[0],
-                    longitude: item.coordinates[1]
-                  }}              
-                  
-                >
-                  <View style={{backgroundColor: "#f5c10299", padding: 10, borderRadius: 50,
-                    borderWidth: 0.5,
-                    borderColor: '#f5c102'}}>
-                      <View style={{backgroundColor: "#f58c02", padding: 7, borderRadius: 50,
-                      borderWidth: 0.5,
-                      borderColor: '#f5c102'}} />
-                  </View> 
-                </Marker>)
+          </Layout>
+        </View>
 
-              }
-              </MapView> : <Text> carregando...</Text> }
-              <Layout style={styles.container}>
-
-                  <Layout style={styles.layout} level='2'>
-                      <Text>{this.points.length}</Text>
-                      <Text>Suspeitos</Text>
-                  </Layout>
-
-                  <Layout style={styles.layoutCenter} level='1'>
-                      <Text>Casos próximos a você</Text>
-                  </Layout>
-              </Layout>
-          </>
-      )
-    }
+        <MapView style={styles.mapStyle} >
+          {this.state.location ? [
+            <Marker
+              key={-1}
+              coordinate={{
+                latitude: this.state.location.coords.latitude,
+                longitude: this.state.location.coords.longitude
+              }}
+              pinColor={'#000fff'}
+            />,
+            ...this.state.points.map((item, i) => <Marker
+              key={i}
+              coordinate={{
+                latitude: item.coordinates[0],
+                longitude: item.coordinates[1]
+              }}
+              pinColor={'#000000'}
+            />)] : null}
+        </MapView>
+        <Layout style={styles.casesContainer}>
+          <Layout style={{ justifyContent: 'center', alignItems: 'center' }}>
+            <Text>{this.state.points.length}</Text>
+            <Text>casos</Text>
+          </Layout>
+          <View style={{ width: 1, height: '100%', backgroundColor: '#D3D8DC', marginLeft: 12, marginRight: 16 }} />
+          <Layout>
+            <Text>Casos próximos a você</Text>
+          </Layout>
+        </Layout>
+      </Layout>
+    )
+  }
 }
 
 
 const styles = StyleSheet.create({
 
-    paragraph: {
-      margin: 24,
-      fontSize: 18,
-      textAlign: 'center',
-    },
-    mapStyle: {
-      width: Dimensions.get('window').width,
-      height: Dimensions.get('window').width,
-      flex: 1,
-      flexWrap: 'wrap',
-      flexDirection: 'row',
-      zIndex: -1,
-    },
-    marker: {
-      marginLeft: 46,
-      marginTop: 33,
-      fontWeight: 'bold',
-    },
-    containerLayout: {
-      flex: 1,
-      flexDirection: 'row',
-      flexWrap: 'wrap',      
-      marginHorizontal: 16,
-      marginTop: 16,
-      maxHeight: Dimensions.get('window').width * 0.25
-    },
-    containerTitle: {
-      flex: 1,
-      minWidth: Dimensions.get('window').width * 0.5,
-      marginLeft: 20,
-      marginTop: 5
-    },
-    itemLayout: {
-      flex: 1,
-      flexDirection: 'row',
-      flexWrap: 'wrap',
-      justifyContent: 'center',
-      minWidth: Dimensions.get('window').width * 0.5,
-    },
-    buttonClassification: {
-      flex: 1,
-      margin: 20,
-      maxWidth: Dimensions.get('window').width * 0.3,
-      maxHeight: Dimensions.get('window').height * 0.1,
-    },
-    container: {
-        flex: 1,
-        zIndex: 1,
-        flexDirection: 'row',
-        maxWidth: Dimensions.get('window').width * 0.9,
-        maxHeight: Dimensions.get('window').height * 0.07,
-        marginHorizontal: 12,
-        justifyContent: 'center',
-    },
-    containerMargin: {
-        flex: 1,
-        zIndex: 1,
-        flexDirection: 'row',
-        maxWidth: Dimensions.get('window').width * 0.9,
-        maxHeight: Dimensions.get('window').height * 0.07,
-        marginHorizontal: 12,
-        marginTop: 10,
-        marginBottom: -30,
-        justifyContent: 'center',
-    },
-    layout: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        maxWidth: Dimensions.get('window').width * 0.2
-    },
-    layout50: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        maxWidth: Dimensions.get('window').width * 0.5,
-        minWidth: Dimensions.get('window').width * 0.4
-    },
-    layoutCenter: {
-        flex: 1,
-        maxWidth: Dimensions.get('window').width * 0.7,
-        justifyContent: 'center',
-        alignItems: 'center',
-    }
-  });
+  mapStyle: {
+    position: 'absolute',
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height,
+    flex: 1,
+    zIndex: -1,
+  },
+  marker: {
+    marginLeft: 46,
+    marginTop: 33,
+    fontWeight: 'bold',
+  },
+  screenContainer: {
+    height: '100%',
+    justifyContent: 'space-between',
+  },
+  casesContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginLeft: 16,
+    marginRight: 16,
+    paddingHorizontal: 12,
+    paddingVertical: 16,
+    borderRadius: 8,
+    marginBottom: 32
+  },
+  actionButton: {
+    flexGrow: 1,
+    flexBasis: 'auto'
+  }
+});
 
-  
+
 
 export default Maps

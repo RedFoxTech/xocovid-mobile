@@ -17,6 +17,7 @@ _getLocationAsync = async () => {
 }
 export const findLocation = async () => {
     if (Platform.OS === 'android' && !Constants.isDevice) {
+      return _getLocationAsync()
         this.setState({
           errorMessage: 'Oops, this will not work on Sketch in an Android emulator. Try it on your device!',
         });
