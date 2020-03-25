@@ -14,6 +14,7 @@ import 'react-native-gesture-handler'
 import Splash from './screens/SplashScreen'
 import Maps from './screens/Maps'
 import Login from './screens/Login'
+import Terms from './screens/terms'
 import Classification from './screens/Classification'
 import Register from './screens/Register'
 
@@ -22,7 +23,7 @@ import { EvaIconsPack } from '@ui-kitten/eva-icons'
 // import BottomTabNavigator from './navigation/BottomTabNavigator';
 import useLinking from './navigation/useLinking'
 
-import { ApplicationProvider, IconRegistry } from '@ui-kitten/components'
+import { ApplicationProvider, Layout, Text, Button, IconRegistry } from '@ui-kitten/components'
 import { mapping, light as lightTheme } from '@eva-design/eva'
 
 import ForgotPassword from './screens/ForgotPassword'
@@ -105,6 +106,7 @@ export default function App (props) {
               <Stack.Screen name={Pages.FORGOT_PASSWORD} component={ForgotPassword} />
               <Stack.Screen name={Pages.REGISTER} component={Register} />
               <Stack.Screen name={Pages.MAPS} component={Maps} />
+              <Stack.Screen name={Pages.TERMS} component={Terms} />
               <Stack.Screen name={Pages.CLASSIFICATION} component={Classification} />
             </Stack.Navigator>
           </NavigationContainer>
@@ -115,23 +117,6 @@ export default function App (props) {
   }
 }
 
-// TaskManager.defineTask('testedaporratoda', () => {
-//   try {
-//     fetch('https://e6f8d076.ngrok.io/task')
-//     // const receivedNewData = // do your background fetch here
-//     // alert('background featch running');
-//     const receivedNewData = true
-//     console.log('cron sucesso')
-//     return receivedNewData ? BackgroundFetch.Result.NewData : BackgroundFetch.Result.NoData;
-//   } catch (error) {
-//     console.log('error cron', error)
-//     return BackgroundFetch.Result.Failed;
-//   }
-// });
-
-// BackgroundFetch.registerTaskAsync('testedaporratoda', {
-//   minimumInterval: 10
-// })
 const styles = StyleSheet.create({
   container: {
     flex: 1,
