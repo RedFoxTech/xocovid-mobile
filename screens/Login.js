@@ -1,32 +1,34 @@
-import { Layout, Text, Button } from '@ui-kitten/components';
-import { StyleSheet, View, Dimensions, TouchableOpacity } from 'react-native'
+import { Layout, Text, Modal, Button, CheckBox } from '@ui-kitten/components'
+import { StyleSheet, Dimensions, TouchableOpacity, ScrollView } from 'react-native'
 import React, { useEffect } from 'react'
-import { Formik } from 'formik';
-import * as Yup from 'yup';
-import { showMessage, hideMessage } from 'react-native-flash-message';
+import { Formik } from 'formik'
+import * as Yup from 'yup'
+import { showMessage } from 'react-native-flash-message'
 
-import axios from '../services/axios';
-import Input from '../components/Input';
-import ErrorMessages from '../constants/ErrorMessages';
-import { loginUser } from '../services/user';
-import { saveToken, tokenExists } from '../services/authenticate';
-import Pages from '../constants/Pages';
+import axios from '../services/axios'
+import Input from '../components/Input'
+import Terms from '../components/terms'
+import ErrorMessages from '../constants/ErrorMessages'
+import { loginUser } from '../services/user'
+import { saveToken, getToken } from '../services/authenticate'
+import Pages from '../constants/Pages'
 
-const screenWidth = Dimensions.get('screen').width - 20;
+const screenWidth = Dimensions.get('screen').width - 20
 
 const Login = ({ navigation }) => {
+  const [visibleModal, setVisibleModal] = React.useState(false)
   const authenticateUser = ({ token }) => {
-    saveToken(token);
+    saveToken(token)
   }
   const handleSubmit = data => {
     loginUser(data)
       .then(showMessage({
-        message: "Entrando...",
-        type: "info",
+        message: 'Entrando...',
+        type: 'info'
       }))
       .then(({ data }) => authenticateUser(data))
       .then(() => navigation.navigate(Pages.MAPS))
-      .catch((err) => {        
+      .catch((err) => {
         showMessage({
           type: 'danger',
           message: ErrorMessages.req
@@ -42,8 +44,8 @@ const Login = ({ navigation }) => {
   })
 
   useEffect(() => {
-    tokenExists().then(navigation.navigate(Pages.MAPS))
-  }, [tokenExists])
+    getToken().then(data => data ? navigation.navigate(Pages.MAPS) : null)
+  }, [getToken])
 
   return (
     <Layout style={styles.container}>
@@ -61,20 +63,20 @@ const Login = ({ navigation }) => {
           return (
             <>
               <Input
-                name="email"
+                name='email'
                 label='Email'
                 onChangeText={handleChange}
                 onBlur={handleBlur}
                 touched={touched}
                 errors={errors}
                 placeholder='Digite o seu email'
-                type="email"
+                type='email'
                 value={email}
               />
               <Input
-                name="password"
+                name='password'
                 label='Senha'
-                type="password"
+                type='password'
                 onChangeText={handleChange}
                 onBlur={handleBlur}
                 touched={touched}
@@ -82,7 +84,11 @@ const Login = ({ navigation }) => {
                 placeholder='Digite a sua senha'
                 value={password}
               />
+
+              <Text style={styles.forgetPassword} onPress={() => navigation.navigate(Pages.TERMS)}> Concordo com os termos de uso </Text>
+
               <Text style={styles.forgetPassword} onPress={() => navigation.navigate(Pages.FORGOT_PASSWORD)}> Esqueci minha senha! </Text>
+
               <Button style={styles.loginBtn} onPress={handleSubmit}> ENTRAR </Button>
             </>
           )
@@ -113,7 +119,7 @@ const Login = ({ navigation }) => {
         </Button>
       </View> */}
     </Layout>
-  );
+  )
 }
 
 export const styles = StyleSheet.create({
@@ -121,11 +127,22 @@ export const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     paddingHorizontal: 10,
-    paddingTop: 20,
+    paddingTop: 20
+  },
+  title: {
+    fontWeight: 'bold'
+  },
+  modalContainer: {
+    width: 450,
+    top: 10,
+    zIndex: 10
   },
   socialMediaContainer: {
     display: 'flex',
     flexDirection: 'row'
+  },
+  backdrop: {
+    backgroundColor: 'rgba(0, 0, 0, 0.5)'
   },
   socialMediaBtn: {
     flex: 1
@@ -168,7 +185,7 @@ export const styles = StyleSheet.create({
   },
   containerRegister: {
     display: 'flex',
-    flexDirection: 'row',
+    flexDirection: 'row'
   },
   loginBtn: {
     margin: 20,

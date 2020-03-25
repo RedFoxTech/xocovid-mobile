@@ -5,5 +5,6 @@ export default {
   HOME: 'Home',
   FORGOT_PASSWORD: 'Esqueci minha senha',
   REGISTER: 'Cadastro',
+  TERMS: 'Termos',
   CLASSIFICATION: 'Formulário'
 }
