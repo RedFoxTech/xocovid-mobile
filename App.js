@@ -25,8 +25,6 @@ import useLinking from './navigation/useLinking';
 import { ApplicationProvider, Layout, Text, Button, IconRegistry } from '@ui-kitten/components';
 import { mapping, light as lightTheme } from '@eva-design/eva';
 
-import * as BackgroundFetch from 'expo-background-fetch';
-import * as TaskManager from 'expo-task-manager';
 import ForgotPassword from './screens/ForgotPassword';
 import Pages from './constants/Pages';
 
@@ -147,17 +145,6 @@ export default function App(props) {
 // BackgroundFetch.registerTaskAsync('testedaporratoda', {
 //   minimumInterval: 10
 // })
-TaskManager.defineTask('teste', ({ data, error }) => {
-  console.log('task teste');
-  if (error) {
-    // Error occurred - check `error.message` for more details.
-    return;
-  }
-  if (data) {
-    const { locations } = data;
-    // do something with the locations captured in the background
-  }
-});
 const styles = StyleSheet.create({
   container: {
     flex: 1,
