@@ -1,7 +1,7 @@
 import { Layout, Text, Modal, Button, CheckBox } from '@ui-kitten/components'
 import { StyleSheet, Dimensions, TouchableOpacity, ScrollView } from 'react-native'
 import React, { useEffect } from 'react'
-import { Formik } from 'formik'
+import { Formik, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 import { showMessage } from 'react-native-flash-message'
 
@@ -39,6 +39,7 @@ const Login = ({ navigation }) => {
     email: Yup.string()
       .email(ErrorMessages.email)
       .required(ErrorMessages.required),
+    acceptTerms: Yup.bool().oneOf([true], 'Os Termos e condidicoes sao obrigatorios'),
     password: Yup.string()
       .required(ErrorMessages.required)
   })
@@ -53,7 +54,7 @@ const Login = ({ navigation }) => {
         Entre com seu email e senha:
       </Text>
       <Formik
-        initialValues={{ password: '', email: '' }}
+        initialValues={{ password: '', email: '', acceptTerms: false }}
         onSubmit={handleSubmit}
         validationSchema={validationSchema}
       >
@@ -84,7 +85,10 @@ const Login = ({ navigation }) => {
                 placeholder='Digite a sua senha'
                 value={password}
               />
-
+              {/* <CheckBox
+                text='Checked'
+                checked={acceptTerms}
+              /> */}
               <Text style={styles.forgetPassword} onPress={() => navigation.navigate(Pages.TERMS)}> Concordo com os termos de uso </Text>
 
               <Text style={styles.forgetPassword} onPress={() => navigation.navigate(Pages.FORGOT_PASSWORD)}> Esqueci minha senha! </Text>
