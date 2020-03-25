@@ -1,5 +1,6 @@
 export default {
-  MAPS: 'Maps',
+  START: 'Splash',
+  MAPS: 'Mapa',
   SPLASH: 'Splash',
   HOME: 'Home',
   FORGOT_PASSWORD: 'Esqueci minha senha',

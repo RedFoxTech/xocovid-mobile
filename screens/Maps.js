@@ -3,14 +3,15 @@ import { Layout, Text, Button, Input } from '@ui-kitten/components';
 import { StyleSheet, Dimensions, View } from 'react-native';
 import React from 'react';
 
-import MapView, { Polygon, Marker } from 'react-native-maps'
+import MapView, { Marker } from 'react-native-maps'
 
 import { findPoints } from './../services/points'
 
 import { findLocation } from './../services/geolocation'
 import { updateOrCreateUserStatus } from './../services/userStatus'
-import { showMessage, hideMessage } from 'react-native-flash-message';
+import { showMessage } from 'react-native-flash-message';
 import Pages from '../constants/Pages';
+import ErrorMessages from '../constants/ErrorMessages';
 
 class Maps extends React.Component {
   state = {
@@ -89,13 +90,19 @@ class Maps extends React.Component {
                 appearance="ghost"
                 status='danger'
                 style={styles.actionButton}
-                onPress={() => this.navigation.navigate('Classification')}
+                onPress={() => this.navigation.navigate(Pages.CLASSIFICATION)}
               >Mal</Button>
             </Layout>
           </Layout>
         </View>
-
-        <MapView style={styles.mapStyle} >
+        { this.state.location ?         <MapView style={styles.mapStyle} initialRegion={
+            {
+              latitude: this.state.location.coords.latitude,
+              longitude: this.state.location.coords.longitude,
+              latitudeDelta: 0.01,
+              longitudeDelta: 0.01,
+            }
+        } >
           {this.state.location ? [
             <Marker
               key={-1}
@@ -103,17 +110,36 @@ class Maps extends React.Component {
                 latitude: this.state.location.coords.latitude,
                 longitude: this.state.location.coords.longitude
               }}
-              pinColor={'#000fff'}
-            />,
+              
+            >
+              <View style={
+                { borderRadius: 50,
+                  borderWidth: 5,
+                  borderColor: '#69bef055',
+                  backgroundColor: '#026ba8',
+                  padding: 5
+                 }
+              } />
+            </Marker>,
             ...this.state.points.map((item, i) => <Marker
               key={i}
               coordinate={{
                 latitude: item.coordinates[0],
                 longitude: item.coordinates[1]
               }}
-              pinColor={'#000000'}
-            />)] : null}
-        </MapView>
+              
+            >
+              <View style={
+                { borderRadius: 50,
+                  borderWidth: 5,
+                  borderColor: '#ffd70055',
+                  backgroundColor: '#F9AC26',
+                  padding: 5
+                 }
+              } /> 
+            </Marker>)] : null}
+        </MapView> : null }
+
         <Layout style={styles.casesContainer}>
           <Layout style={{ justifyContent: 'center', alignItems: 'center' }}>
             <Text>{this.state.points.length}</Text>
@@ -121,7 +147,7 @@ class Maps extends React.Component {
           </Layout>
           <View style={{ width: 1, height: '100%', backgroundColor: '#D3D8DC', marginLeft: 12, marginRight: 16 }} />
           <Layout>
-            <Text>Casos próximos a você</Text>
+            <Text>Casos suspeitos próximos a você</Text>
           </Layout>
         </Layout>
       </Layout>

@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Tab Navigation Template",
-    "slug": "codiv-track",
+    "name": "XoCovid",
+    "slug": "xocovid",
     "privacy": "public",
     "sdkVersion": "36.0.0",
     "platforms": [
@@ -11,10 +11,9 @@
     ],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
-    "scheme": "exp",
+    "icon": "./assets/icon.png",
     "splash": {
-      "image": "./assets/images/splash.png",
+      "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -25,26 +24,14 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "ios",
-      "publishBundlePath": "ios/tab-navigation-template/Supporting/shell-app.bundle",
-      "publishManifestPath": "ios/tab-navigation-template/Supporting/shell-app-manifest.json",
-      "infoPlist": {
-        "UIBackgroundModes": [
-          "location",
-          "fetch"
-        ]
-      }
-    },
-    "isDetached": true,
-    "detach": {
-      "iosExpoViewUrl": "https://s3.amazonaws.com/exp-exponent-view-code/ios-v2.14.6-sdk36.0.0-8ea388d1-463b-4e91-bbf7-2d95d0174c96.tar.gz",
-      "androidExpoViewUrl": "https://s3.amazonaws.com/exp-exponent-view-code/android-v2.14.2-sdk36.0.0-ce7e16db-fd5d-4fdd-bdeb-701ba94a04d1.tar.gz"
+      "bundleIdentifier": "com.redfox.xocovid",
+      "buildNumber": "1.0.0",
+      "supportsTablet": false
     },
     "android": {
-      "package": "android.app",
-      "publishBundlePath": "android/app/src/main/assets/shell-app.bundle",
-      "publishManifestPath": "android/app/src/main/assets/shell-app-manifest.json"
-    }
+      "package": "com.redfox.xocovid",
+      "versionCode": 1
+    },
+    "description": ""
   }
 }
